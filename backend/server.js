@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const axios = require("axios");
 const XLSX = require("xlsx");
 const { getAccessToken } = require("./src/services/graph/auth.service");
@@ -10,6 +11,7 @@ const dashboardRoutes = require("./src/routes/dashboard.routes");
 const { startExcelMonitor } = require("./src/polling/excel-monitor.service");
 const app = express();
 
+app.use(cors());
 app.use(dashboardRoutes);
 
 app.get("/", (req, res) => {
@@ -254,6 +256,19 @@ app.get("/calendar-raw", async (req, res) => {
       error: error.message,
     });
   }
+});
+
+app.use((req, res) => {
+  res.status(404).json({
+    error: `Route not found: ${req.method} ${req.originalUrl}`,
+  });
+});
+
+app.use((error, req, res, next) => {
+  console.error(error);
+  res.status(500).json({
+    error: error.message || "Internal server error",
+  });
 });
 
 app.listen(5000, async () => {
