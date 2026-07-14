@@ -14,8 +14,9 @@ function SolutionCard({ solution, active, onClick }) {
     >
       <div className="solution-row-name">{solution[FIELDS.name]}</div>
       <div className="solution-row-meta">
-        <span className="row-badge sector">{solution[FIELDS.sector] || "—"}</span>
-        <span className={`row-badge ${benchmarked ? "done" : "pending"}`}>
+        <span className="row-sector">{solution[FIELDS.sector] || "-"}</span>
+        <span className={`row-status ${benchmarked ? "done" : "pending"}`}>
+          <span className="status-dot"></span>
           {benchmarked ? "Benchmarked" : "Pending"}
         </span>
         {impl > 0 && <span className="solution-row-impl">{impl} impl.</span>}

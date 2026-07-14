@@ -37,15 +37,18 @@ function SolutionSidebar({
           />
         </div>
 
-        <select
-          className="sort-select browse-sort"
-          value={sortBy}
-          onChange={(e) => onSortChange(e.target.value)}
-        >
-          <option value="year-desc">Recently updated</option>
-          <option value="name-asc">Name A–Z</option>
-          <option value="impl-desc">Implementations: high → low</option>
-        </select>
+        <div className="select-wrapper browse-sort">
+          <select
+            className="sort-select"
+            value={sortBy}
+            onChange={(e) => onSortChange(e.target.value)}
+          >
+            <option value="year-desc">Recently updated</option>
+            <option value="name-asc">Name A-Z</option>
+            <option value="impl-desc">Implementations: high → low</option>
+          </select>
+          <i className="ti ti-chevron-down select-wrapper-icon" aria-hidden="true"></i>
+        </div>
 
         <div className="chip-row">
           <span

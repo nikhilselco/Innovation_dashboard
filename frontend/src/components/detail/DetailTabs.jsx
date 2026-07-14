@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { FIELDS, isBenchmarked, getImplementationsCount, hasContent } from "../../utils/helpers";
+import {
+  FIELDS,
+  isBenchmarked,
+  getImplementationsCount,
+  hasContent,
+  extractUrl,
+} from "../../utils/helpers";
 import DocumentationPanel from "./DocumentationPanel";
 
 const TABS = [
@@ -15,6 +21,8 @@ const TABS = [
 function ParamBlock({ icon, title, value, full }) {
   if (!hasContent(value)) return null;
 
+  const url = extractUrl(value);
+
   return (
     <div className={`param-block${full ? " full" : ""}`}>
       <p className="param-title">
@@ -22,6 +30,11 @@ function ParamBlock({ icon, title, value, full }) {
         {title}
       </p>
       <p className="param-value">{value}</p>
+      {url && (
+        <a href={url} target="_blank" rel="noreferrer" className="param-link">
+          Open link <i className="ti ti-external-link" aria-hidden="true"></i>
+        </a>
+      )}
     </div>
   );
 }
@@ -175,7 +188,7 @@ function CompareTab({ solution, allSolutions }) {
             <tr key={label}>
               <td style={{ color: "var(--color-text-tertiary)", fontWeight: 600 }}>{label}</td>
               {all.map((row) => (
-                <td key={row[FIELDS.srNo]}>{fn(row) || "—"}</td>
+                <td key={row[FIELDS.srNo]}>{fn(row) || "-"}</td>
               ))}
             </tr>
           ))}

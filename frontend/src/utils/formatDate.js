@@ -1,5 +1,5 @@
 export function formatDate(isoString) {
-  if (!isoString) return "—";
+  if (!isoString) return "-";
 
   return new Date(isoString).toLocaleString("en-IN", {
     day: "2-digit",

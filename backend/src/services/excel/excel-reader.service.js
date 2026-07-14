@@ -7,6 +7,13 @@ function getWorkbook(fileBuffer) {
   return workbook;
 }
 
+function getCellLink(sheet, r, c) {
+  const addr = XLSX.utils.encode_cell({ r, c });
+  const cell = sheet[addr];
+  return cell && cell.l && cell.l.Target ? cell.l.Target : null;
+}
+
 module.exports = {
   getWorkbook,
+  getCellLink,
 };

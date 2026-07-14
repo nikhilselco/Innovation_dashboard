@@ -80,7 +80,7 @@ function RecentSolutionsTable({ solutions }) {
                     color: "var(--color-text-secondary)",
                   }}
                 >
-                  {row["Update Year"] || "—"}
+                  {row["Update Year"] || "-"}
                 </td>
                 <td style={{ textAlign: "center" }}>
                   <div className="action-icons">

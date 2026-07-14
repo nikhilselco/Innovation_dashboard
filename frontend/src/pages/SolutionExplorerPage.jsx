@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useLongList } from "../hooks/useLongList";
 import SolutionSidebar from "../components/explorer/SolutionSidebar";
@@ -66,6 +66,12 @@ function SolutionExplorerPage() {
     return solutions.find((row) => String(row[FIELDS.srNo]) === String(id)) || null;
   }, [solutions, id]);
 
+  useEffect(() => {
+    if (!loading && !id && filtered.length > 0) {
+      navigate(`/explorer/${filtered[0][FIELDS.srNo]}`, { replace: true });
+    }
+  }, [loading, id, filtered, navigate]);
+
   if (error) return <ErrorMessage message={error} />;
 
   const statsSource = filtered;
@@ -126,15 +132,8 @@ function SolutionExplorerPage() {
                   />
                 </div>
               ) : (
-                <div className="coming-soon">
-                  <div className="coming-soon-icon">
-                    <i className="ti ti-list-search" aria-hidden="true"></i>
-                  </div>
-                  <h3>Select a solution to view details</h3>
-                  <p>
-                    Choose any solution from the list to explore its full profile — field data,
-                    technical specs, documentation, and more.
-                  </p>
+                <div className="detail-panel-empty">
+                  <p>No solutions match your filters. Try clearing the search or sector.</p>
                 </div>
               )}
             </div>

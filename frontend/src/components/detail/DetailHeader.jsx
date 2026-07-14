@@ -21,7 +21,7 @@ function DetailHeader({ solution }) {
         {metaParts.length > 0 && <p className="detail-hero-meta">{metaParts.join(" · ")}</p>}
 
         <div className="detail-hero-badges">
-          <span className="row-badge sector">{solution[FIELDS.sector] || "—"}</span>
+          <span className="row-badge sector">{solution[FIELDS.sector] || "-"}</span>
           <span className={`row-badge ${benchmarked ? "done" : "pending"}`}>
             {benchmarked ? "Benchmarked" : "Pending"}
           </span>
