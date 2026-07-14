@@ -1,13 +1,18 @@
 import { useMemo, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useLongList } from "../hooks/useLongList";
 import SolutionSidebar from "../components/explorer/SolutionSidebar";
-import FilterPanel from "../components/explorer/FilterPanel";
-import SolutionCard from "../components/explorer/SolutionCard";
+import DetailHeader from "../components/detail/DetailHeader";
+import DetailTabs from "../components/detail/DetailTabs";
+import KPICard from "../components/dashboard/KPICard";
 import ErrorMessage from "../components/common/ErrorMessage";
-import { isBenchmarked } from "../utils/helpers";
+import { FIELDS, isBenchmarked, getImplementationsCount } from "../utils/helpers";
 
 function SolutionExplorerPage() {
   const { solutions, loading, error } = useLongList();
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const [search, setSearch] = useState("");
   const [activeSector, setActiveSector] = useState(null);
   const [status, setStatus] = useState("all");
@@ -17,7 +22,7 @@ function SolutionExplorerPage() {
     if (!solutions) return [];
     const counts = {};
     solutions.forEach((row) => {
-      const sector = row["Sector"] || "Unknown";
+      const sector = row[FIELDS.sector] || "Unknown";
       counts[sector] = (counts[sector] || 0) + 1;
     });
     return Object.entries(counts)
@@ -31,10 +36,9 @@ function SolutionExplorerPage() {
     const searchLower = search.trim().toLowerCase();
 
     let rows = solutions.filter((row) => {
-      const matchesSector = !activeSector || row["Sector"] === activeSector;
+      const matchesSector = !activeSector || row[FIELDS.sector] === activeSector;
       const matchesSearch =
-        !searchLower ||
-        (row["Solution Package Name"] || "").toLowerCase().includes(searchLower);
+        !searchLower || (row[FIELDS.name] || "").toLowerCase().includes(searchLower);
       const benchmarked = isBenchmarked(row);
       const matchesStatus =
         status === "all" ||
@@ -46,17 +50,28 @@ function SolutionExplorerPage() {
 
     rows = [...rows].sort((a, b) => {
       if (sortBy === "name-asc") {
-        return (a["Solution Package Name"] || "").localeCompare(
-          b["Solution Package Name"] || ""
-        );
+        return (a[FIELDS.name] || "").localeCompare(b[FIELDS.name] || "");
       }
-      return (Number(b["Update Year"]) || 0) - (Number(a["Update Year"]) || 0);
+      if (sortBy === "impl-desc") {
+        return getImplementationsCount(b) - getImplementationsCount(a);
+      }
+      return (Number(b[FIELDS.updateYear]) || 0) - (Number(a[FIELDS.updateYear]) || 0);
     });
 
     return rows;
   }, [solutions, search, activeSector, status, sortBy]);
 
+  const selected = useMemo(() => {
+    if (!solutions || !id) return null;
+    return solutions.find((row) => String(row[FIELDS.srNo]) === String(id)) || null;
+  }, [solutions, id]);
+
   if (error) return <ErrorMessage message={error} />;
+
+  const statsSource = filtered;
+  const statBenchmarked = statsSource.filter(isBenchmarked).length;
+  const statSectors = new Set(statsSource.map((r) => r[FIELDS.sector])).size;
+  const statImpl = statsSource.reduce((sum, r) => sum + getImplementationsCount(r), 0);
 
   return (
     <main className="dashboard-content">
@@ -68,48 +83,63 @@ function SolutionExplorerPage() {
       </div>
 
       {loading ? (
-        <div className="solution-grid">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div className="solution-card skeleton" style={{ height: 150 }} key={i}></div>
+        <div className="kpi-grid">
+          {[0, 1, 2, 3].map((i) => (
+            <div className="kpi skeleton" style={{ height: 90 }} key={i}></div>
           ))}
         </div>
       ) : (
-        <div className="explorer-layout">
-          <SolutionSidebar
-            sectors={sectors}
-            activeSector={activeSector}
-            onSelectSector={setActiveSector}
-            totalCount={solutions.length}
-          />
+        <>
+          <div className="kpi-grid">
+            <KPICard icon="ti-package" tone="brand" label="Solutions" value={statsSource.length} sub="In current filter" />
+            <KPICard icon="ti-circle-check" tone="success" label="Benchmarked" value={statBenchmarked} sub="Fully documented" />
+            <KPICard icon="ti-sitemap" tone="info" label="Sectors" value={statSectors} sub="Livelihood types" />
+            <KPICard icon="ti-map-pin" tone="warning" label="Implementations" value={statImpl} sub="Total deployed sites" />
+          </div>
 
-          <div className="explorer-main">
-            <FilterPanel
+          <div className="explorer-layout">
+            <SolutionSidebar
+              sectors={sectors}
+              totalCount={solutions.length}
+              filteredCount={filtered.length}
               search={search}
               onSearchChange={setSearch}
-              status={status}
-              onStatusChange={setStatus}
               sortBy={sortBy}
               onSortChange={setSortBy}
-              resultCount={filtered.length}
+              activeSector={activeSector}
+              onSelectSector={setActiveSector}
+              status={status}
+              onStatusChange={setStatus}
+              items={filtered}
+              selectedId={id}
+              onSelectSolution={(srNo) => navigate(`/explorer/${srNo}`)}
             />
 
-            {filtered.length === 0 ? (
-              <div className="coming-soon">
-                <div className="coming-soon-icon">
-                  <i className="ti ti-search-off" aria-hidden="true"></i>
+            <div className="explorer-main">
+              {selected ? (
+                <div className="detail-panel">
+                  <DetailHeader solution={selected} />
+                  <DetailTabs
+                    key={selected[FIELDS.srNo]}
+                    solution={selected}
+                    allSolutions={solutions}
+                  />
                 </div>
-                <h3>No solutions match your filters</h3>
-                <p>Try clearing the search or selecting a different sector.</p>
-              </div>
-            ) : (
-              <div className="solution-grid">
-                {filtered.map((row) => (
-                  <SolutionCard key={row["Sr No."]} solution={row} />
-                ))}
-              </div>
-            )}
+              ) : (
+                <div className="coming-soon">
+                  <div className="coming-soon-icon">
+                    <i className="ti ti-list-search" aria-hidden="true"></i>
+                  </div>
+                  <h3>Select a solution to view details</h3>
+                  <p>
+                    Choose any solution from the list to explore its full profile — field data,
+                    technical specs, documentation, and more.
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        </>
       )}
     </main>
   );
