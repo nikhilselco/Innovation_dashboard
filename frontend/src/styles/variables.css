@@ -1,0 +1,60 @@
+:root {
+  /* Neutrals */
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e6eaf0;
+  --gray-300: #d7dce4;
+  --gray-400: #a6afbd;
+  --gray-500: #767f8f;
+  --gray-600: #545c6a;
+  --gray-700: #363c47;
+  --gray-800: #20242c;
+  --gray-900: #12151a;
+
+  /* Brand */
+  --brand-50: #eafbf5;
+  --brand-100: #cdf3e3;
+  --brand-500: #14a577;
+  --brand-600: #0e8a63;
+  --brand-700: #0b6f50;
+  --brand-gradient: linear-gradient(135deg, #17b884 0%, #0e8a63 100%);
+
+  /* Semantic */
+  --color-success: #0e8a63;
+  --color-success-bg: #e9f8f1;
+  --color-warning: #b7791f;
+  --color-warning-bg: #fdf3e0;
+  --color-danger: #c0392b;
+  --color-danger-bg: #fbeae8;
+  --color-info: #2563eb;
+  --color-info-bg: #eaf1fd;
+
+  /* Surface + text */
+  --color-background-primary: #ffffff;
+  --color-background-secondary: var(--gray-50);
+  --color-background-tertiary: #f4f6f9;
+
+  --color-text-primary: var(--gray-800);
+  --color-text-secondary: var(--gray-500);
+  --color-text-tertiary: var(--gray-400);
+
+  --color-border-tertiary: rgba(18, 21, 26, 0.07);
+  --color-border-secondary: rgba(18, 21, 26, 0.12);
+  --color-border-primary: rgba(18, 21, 26, 0.2);
+
+  /* Elevation */
+  --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-sm: 0 1px 3px rgba(16, 24, 40, 0.07), 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-md: 0 4px 10px rgba(16, 24, 40, 0.06), 0 2px 4px rgba(16, 24, 40, 0.04);
+  --shadow-lg: 0 12px 24px rgba(16, 24, 40, 0.08), 0 4px 8px rgba(16, 24, 40, 0.04);
+
+  /* Radii */
+  --border-radius-sm: 6px;
+  --border-radius-md: 10px;
+  --border-radius-lg: 14px;
+  --border-radius-xl: 20px;
+
+  /* Type */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Manrope", "Inter", -apple-system, sans-serif;
+}
