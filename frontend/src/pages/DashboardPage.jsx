@@ -5,16 +5,21 @@ import RecentSolutionsTable from "../components/dashboard/RecentSolutionsTable";
 import Loading from "../components/common/Loading";
 import ErrorMessage from "../components/common/ErrorMessage";
 import { useDashboard } from "../hooks/useDashboard";
-import { formatDate } from "../utils/formatDate";
 
 const FILTERS = ["Sector", "Value Chain", "Year", "Status"];
 
 function DashboardPage() {
-  const { summary, sectors, benchmarkStatus, longList, lastUpdated, loading, error } =
-    useDashboard();
+  const { summary, sectors, benchmarkStatus, longList, loading, error } = useDashboard();
 
   if (loading) return <Loading />;
   if (error) return <ErrorMessage message={error} />;
+
+  const percentBenchmarked = summary.totalSolutions
+    ? ((summary.benchmarkedSolutions / summary.totalSolutions) * 100).toFixed(1)
+    : "0.0";
+  const percentPending = summary.totalSolutions
+    ? ((summary.pendingSolutions / summary.totalSolutions) * 100).toFixed(1)
+    : "0.0";
 
   return (
     <main className="dashboard-content">
@@ -23,20 +28,17 @@ function DashboardPage() {
           <h2>Overall Dashboard</h2>
           <p>High-level overview of benchmarking progress and solution distribution.</p>
         </div>
-        <span className="last-synced">
-          <i className="ti ti-refresh" aria-hidden="true"></i>
-          Last sync &middot; {formatDate(lastUpdated)}
-        </span>
       </div>
 
       <div className="filter-row">
         <span className="filter-label">Filters</span>
+        <span className="soon-badge">Coming soon</span>
         {FILTERS.map((label) => (
-          <span className="chip" key={label}>
+          <span className="chip disabled" key={label} title="Filtering is coming soon">
             {label} <i className="ti ti-chevron-down" style={{ fontSize: 11 }} aria-hidden="true"></i>
           </span>
         ))}
-        <span className="chip active">
+        <span className="chip disabled" title="Filtering is coming soon">
           <i className="ti ti-star" style={{ fontSize: 11 }} aria-hidden="true"></i> Priority only
         </span>
       </div>
@@ -55,14 +57,14 @@ function DashboardPage() {
           label="Benchmarked"
           value={summary.benchmarkedSolutions}
           valueSuffix={`/ ${summary.totalSolutions}`}
-          sub="Of total solutions"
+          sub={`${percentBenchmarked}% benchmarked`}
         />
         <KPICard
           icon="ti-clock"
           tone="warning"
           label="Pending"
           value={summary.pendingSolutions}
-          sub="Awaiting benchmarking"
+          sub={`${percentPending}% awaiting benchmarking`}
         />
         <KPICard
           icon="ti-sitemap"

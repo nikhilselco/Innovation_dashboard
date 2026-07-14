@@ -5,6 +5,7 @@ import {
   YAxis,
   Cell,
   Tooltip,
+  LabelList,
   ResponsiveContainer,
 } from "recharts";
 
@@ -38,14 +39,14 @@ function SectorChart({ data }) {
   return (
     <div className="card">
       <p className="card-title">Solutions by Sector</p>
-      <ResponsiveContainer width="100%" height={sorted.length * 38 + 10}>
+      <ResponsiveContainer width="100%" height={sorted.length * 30 + 10}>
         <BarChart
           data={sorted}
           layout="vertical"
-          margin={{ top: 0, right: 24, bottom: 0, left: 0 }}
-          barCategoryGap={16}
+          margin={{ top: 0, right: 32, bottom: 0, left: 0 }}
+          barCategoryGap={12}
         >
-          <XAxis type="number" hide />
+          <XAxis type="number" hide domain={[0, (max) => Math.ceil(max * 1.15)]} />
           <YAxis
             type="category"
             dataKey="sector"
@@ -59,6 +60,11 @@ function SectorChart({ data }) {
             {sorted.map((entry, index) => (
               <Cell key={entry.sector} fill={COLORS[index % COLORS.length]} />
             ))}
+            <LabelList
+              dataKey="count"
+              position="right"
+              style={{ fontSize: 12, fontWeight: 600, fill: "var(--color-text-primary)" }}
+            />
           </Bar>
         </BarChart>
       </ResponsiveContainer>

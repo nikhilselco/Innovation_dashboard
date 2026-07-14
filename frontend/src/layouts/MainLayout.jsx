@@ -1,4 +1,5 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, Outlet, Link } from "react-router-dom";
 import Header from "../components/common/Header";
 
 const NAV_ITEMS = [
@@ -8,15 +9,31 @@ const NAV_ITEMS = [
 ];
 
 function MainLayout() {
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
     <div className="app-shell">
-      <aside className="sidebar">
+      <aside className={`sidebar${collapsed ? " collapsed" : ""}`}>
         <div className="sidebar-brand">
-          <img src="/selco-foundation.png" alt="SELCO Foundation" />
-          <div className="sidebar-brand-text">
-            <strong>SELCO</strong>
-            <span>Innovation Hub</span>
-          </div>
+          <Link to="/" className="sidebar-brand-link" title="Go to Overall Dashboard">
+            <img src="/selco-foundation.png" alt="SELCO Foundation" />
+            <div className="sidebar-brand-text">
+              <strong>SELCO</strong>
+              <span>Innovation Hub</span>
+            </div>
+          </Link>
+          <button
+            type="button"
+            className="icon-btn sidebar-toggle"
+            onClick={() => setCollapsed((c) => !c)}
+            aria-label="Toggle sidebar"
+            title="Toggle sidebar"
+          >
+            <i
+              className={`ti ${collapsed ? "ti-layout-sidebar-left-expand" : "ti-layout-sidebar-left-collapse"}`}
+              aria-hidden="true"
+            ></i>
+          </button>
         </div>
 
         <nav className="sidebar-nav">
@@ -26,22 +43,16 @@ function MainLayout() {
               key={item.to}
               to={item.to}
               end={item.end}
+              title={item.label}
               className={({ isActive }) =>
                 `sidebar-link${isActive ? " active" : ""}`
               }
             >
               <i className={`ti ${item.icon}`} aria-hidden="true"></i>
-              {item.label}
+              <span className="link-label">{item.label}</span>
             </NavLink>
           ))}
         </nav>
-
-        <div className="sidebar-footer">
-          <div className="sync-pill">
-            <span className="sync-dot"></span>
-            Auto-synced every 30s
-          </div>
-        </div>
       </aside>
 
       <div className="app-main">
