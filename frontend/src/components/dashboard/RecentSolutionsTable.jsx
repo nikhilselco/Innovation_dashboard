@@ -1,4 +1,4 @@
-import { extractUrl } from "../../utils/helpers";
+import { extractUrl, isBenchmarked, VALUE_CHAIN_FIELD } from "../../utils/helpers";
 
 const VIDEO_FIELD = "Video of the solution package";
 const DOCS_FIELD = "Tech specs";
@@ -56,9 +56,7 @@ function RecentSolutionsTable({ solutions }) {
         </thead>
         <tbody>
           {rows.map((row, index) => {
-            const isBenchmarked =
-              typeof row["Benchmarked  (Yes/ No)"] === "string" &&
-              row["Benchmarked  (Yes/ No)"].trim().toLowerCase() === "yes";
+            const benchmarked = isBenchmarked(row);
 
             return (
               <tr key={index}>
@@ -67,13 +65,13 @@ function RecentSolutionsTable({ solutions }) {
                   {row["Sector"]}
                 </td>
                 <td style={{ color: "var(--color-text-secondary)" }}>
-                  {row["Value chains "]}
+                  {row[VALUE_CHAIN_FIELD]}
                 </td>
                 <td style={{ textAlign: "center" }}>
                   <span
-                    className={`status-pill ${isBenchmarked ? "done" : "pending"}`}
+                    className={`status-pill ${benchmarked ? "done" : "pending"}`}
                   >
-                    {isBenchmarked ? "Benchmarked" : "Pending"}
+                    {benchmarked ? "Benchmarked" : "Pending"}
                   </span>
                 </td>
                 <td
