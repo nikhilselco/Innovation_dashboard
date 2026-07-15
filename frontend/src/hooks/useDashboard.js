@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getSummary, getLongList } from "../api/dashboardApi";
 import { FIELDS, isBenchmarked } from "../utils/helpers";
+import { useMinLoadingTime } from "./useMinLoadingTime";
 
 function deriveSectors(longList) {
   const counts = {};
@@ -55,5 +56,7 @@ export function useDashboard() {
     };
   }, []);
 
-  return { ...data, loading, error };
+  const displayLoading = useMinLoadingTime(loading);
+
+  return { ...data, loading: displayLoading, error };
 }

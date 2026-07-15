@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getLongList } from "../api/dashboardApi";
+import { useMinLoadingTime } from "./useMinLoadingTime";
 
 export function useLongList() {
   const [solutions, setSolutions] = useState(null);
@@ -25,5 +26,5 @@ export function useLongList() {
     };
   }, []);
 
-  return { solutions, loading, error };
+  return { solutions, loading: useMinLoadingTime(loading), error };
 }
