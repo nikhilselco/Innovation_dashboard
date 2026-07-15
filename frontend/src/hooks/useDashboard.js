@@ -1,11 +1,22 @@
 import { useEffect, useState } from "react";
-import {
-  getSummary,
-  getSectors,
-  getBenchmarkStatus,
-  getLongList,
-  getLastUpdated,
-} from "../api/dashboardApi";
+import { getSummary, getLongList } from "../api/dashboardApi";
+import { FIELDS, isBenchmarked } from "../utils/helpers";
+
+function deriveSectors(longList) {
+  const counts = {};
+  longList.forEach((row) => {
+    const sector = row[FIELDS.sector] || "Unknown";
+    counts[sector] = (counts[sector] || 0) + 1;
+  });
+  return Object.entries(counts).map(([sector, count]) => ({ sector, count }));
+}
+
+function deriveBenchmarkStatus(longList) {
+  let benchmarked = 0;
+  let pending = 0;
+  longList.forEach((row) => (isBenchmarked(row) ? benchmarked++ : pending++));
+  return { benchmarked, pending };
+}
 
 export function useDashboard() {
   const [data, setData] = useState({
@@ -21,21 +32,15 @@ export function useDashboard() {
   useEffect(() => {
     let cancelled = false;
 
-    Promise.all([
-      getSummary(),
-      getSectors(),
-      getBenchmarkStatus(),
-      getLongList(),
-      getLastUpdated(),
-    ])
-      .then(([summary, sectors, benchmarkStatus, longList, lastUpdated]) => {
+    Promise.all([getSummary(), getLongList()])
+      .then(([summary, longList]) => {
         if (cancelled) return;
         setData({
           summary,
-          sectors,
-          benchmarkStatus,
+          sectors: deriveSectors(longList),
+          benchmarkStatus: deriveBenchmarkStatus(longList),
           longList,
-          lastUpdated: lastUpdated.lastUpdated,
+          lastUpdated: summary.lastUpdated,
         });
       })
       .catch((err) => {
