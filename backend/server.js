@@ -5,9 +5,14 @@ const dashboardRoutes = require("./src/routes/dashboard.routes");
 const { startExcelMonitor } = require("./src/polling/excel-monitor.service");
 const app = express();
 
+const ALLOWED_ORIGINS = [
+  "https://dashboard-benchmarking.onrender.com",
+  "http://localhost:5173",
+];
+
 app.use(
   cors({
-    origin: "https://dashboard-benchmarking.onrender.com",
+    origin: ALLOWED_ORIGINS,
   })
 );
 app.use(dashboardRoutes);
