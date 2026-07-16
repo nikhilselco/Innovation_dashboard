@@ -46,6 +46,11 @@ export function isBenchmarked(row) {
   return typeof value === "string" && value.trim().toLowerCase() === "yes";
 }
 
+export function isPriority(row) {
+  const value = row[FIELDS.priority];
+  return typeof value === "string" && value.trim().toLowerCase() === "yes";
+}
+
 export function getImplementationsCount(row) {
   return Number(row[FIELDS.implementations]) || 0;
 }

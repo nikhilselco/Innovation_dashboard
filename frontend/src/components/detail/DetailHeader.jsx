@@ -1,12 +1,16 @@
-import { FIELDS, isBenchmarked, getImplementationsCount, hasContent } from "../../utils/helpers";
+import {
+  FIELDS,
+  isBenchmarked,
+  isPriority,
+  getImplementationsCount,
+  hasContent,
+} from "../../utils/helpers";
 
 function DetailHeader({ solution }) {
   const benchmarked = isBenchmarked(solution);
+  const priority = isPriority(solution);
   const impl = getImplementationsCount(solution);
   const innovationType = solution[FIELDS.innovationType];
-  const isPriority =
-    typeof solution[FIELDS.priority] === "string" &&
-    solution[FIELDS.priority].trim().toLowerCase() === "yes";
 
   const metaParts = [
     solution[FIELDS.segment],
@@ -25,7 +29,7 @@ function DetailHeader({ solution }) {
           <span className={`row-badge ${benchmarked ? "done" : "pending"}`}>
             {benchmarked ? "Benchmarked" : "Pending"}
           </span>
-          {isPriority && (
+          {priority && (
             <span className="hero-badge-muted">
               <i className="ti ti-star" aria-hidden="true"></i> Priority
             </span>
