@@ -1,4 +1,4 @@
-import { FIELDS, extractUrl, hasContent } from "../../utils/helpers";
+import { FIELDS, extractUrl, hasContent, getLinkLabel } from "../../utils/helpers";
 
 const DOC_FIELDS = [
   { key: FIELDS.businessModel, label: "Business Model", icon: "ti-briefcase" },
@@ -34,7 +34,7 @@ function DocumentationPanel({ solution }) {
               <i className={`ti ${row.icon}`} aria-hidden="true"></i>
               {row.label}
             </p>
-            <p className="param-value">{row.value}</p>
+            <p className="param-value">{getLinkLabel(row.value)}</p>
             {url && (
               <a href={url} target="_blank" rel="noreferrer" className="param-link">
                 Open link <i className="ti ti-external-link" aria-hidden="true"></i>

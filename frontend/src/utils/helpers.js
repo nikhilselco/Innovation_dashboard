@@ -7,6 +7,19 @@ export function extractUrl(value) {
   return match ? match[0] : null;
 }
 
+// For text that mixes a description with a link (e.g. "Weeder Financial
+// Model.xlsx https://..."), show just the description. Falls back to the
+// URL itself when there's no other text (a bare link with nothing else).
+export function getLinkLabel(value) {
+  if (typeof value !== "string") return value;
+
+  const url = extractUrl(value);
+  if (!url) return value;
+
+  const title = value.replace(/https?:\/\/\S+/g, "").replace(/[,\s]+/g, " ").trim();
+  return title || url;
+}
+
 export const FIELDS = {
   srNo: "Sr No.",
   sector: "Sector",
@@ -68,4 +81,30 @@ export function getImplementationsCount(row) {
 
 export function hasContent(value) {
   return typeof value === "string" ? value.trim().length > 0 : Boolean(value);
+}
+
+// The set of real documentation columns tracked per solution, used for the
+// Benchmark Tracker's completeness reporting (heatmap, pending-by-field
+// chart, kanban progress, CSV export). Every key here is a real Excel column.
+export const DOC_FIELDS = [
+  { key: FIELDS.benchmarkDoc, label: "Benchmark Doc", short: "BMrk" },
+  { key: FIELDS.packageOfPractice, label: "Package of Practice", short: "PoP" },
+  { key: FIELDS.techSpecs, label: "Tech Specs", short: "Tech" },
+  { key: FIELDS.solarSpecs, label: "Solar Specs", short: "Solar" },
+  { key: FIELDS.omDetails, label: "O&M Details", short: "O&M" },
+  { key: FIELDS.caseStudy, label: "Case Study", short: "Case" },
+  { key: FIELDS.video, label: "Video", short: "Video" },
+  { key: FIELDS.businessModel, label: "Business Model", short: "Biz" },
+];
+
+export function getDocStatus(row) {
+  const filled = DOC_FIELDS.filter((f) => hasContent(row[f.key])).length;
+  const total = DOC_FIELDS.length;
+  const benchmarked = isBenchmarked(row);
+
+  let status = "not-started";
+  if (benchmarked) status = "done";
+  else if (filled > 0) status = "in-progress";
+
+  return { filled, total, percent: Math.round((filled / total) * 100), status };
 }

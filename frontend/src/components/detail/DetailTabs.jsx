@@ -5,6 +5,7 @@ import {
   getImplementationsCount,
   hasContent,
   extractUrl,
+  getLinkLabel,
 } from "../../utils/helpers";
 import DocumentationPanel from "./DocumentationPanel";
 
@@ -29,7 +30,7 @@ function ParamBlock({ icon, title, value, full }) {
         <i className={`ti ${icon}`} aria-hidden="true"></i>
         {title}
       </p>
-      <p className="param-value">{value}</p>
+      <p className="param-value">{getLinkLabel(value)}</p>
       {url && (
         <a href={url} target="_blank" rel="noreferrer" className="param-link">
           Open link <i className="ti ti-external-link" aria-hidden="true"></i>
