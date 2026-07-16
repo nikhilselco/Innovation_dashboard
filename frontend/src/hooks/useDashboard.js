@@ -29,6 +29,7 @@ export function useDashboard() {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -54,9 +55,15 @@ export function useDashboard() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [retryCount]);
 
   const displayLoading = useMinLoadingTime(loading);
 
-  return { ...data, loading: displayLoading, error };
+  const retry = () => {
+    setLoading(true);
+    setError(null);
+    setRetryCount((c) => c + 1);
+  };
+
+  return { ...data, loading: displayLoading, error, retry };
 }

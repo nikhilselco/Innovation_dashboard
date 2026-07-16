@@ -6,6 +6,7 @@ export function useLongList() {
   const [solutions, setSolutions] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -24,7 +25,13 @@ export function useLongList() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [retryCount]);
 
-  return { solutions, loading: useMinLoadingTime(loading), error };
+  const retry = () => {
+    setLoading(true);
+    setError(null);
+    setRetryCount((c) => c + 1);
+  };
+
+  return { solutions, loading: useMinLoadingTime(loading), error, retry };
 }

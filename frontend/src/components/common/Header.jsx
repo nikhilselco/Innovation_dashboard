@@ -28,11 +28,6 @@ function Header({ onMenuClick }) {
         <i className="ti ti-menu-2" aria-hidden="true"></i>
       </button>
 
-      <div className="search-box">
-        <i className="ti ti-search" aria-hidden="true"></i>
-        <input type="text" placeholder="Search solutions" />
-      </div>
-
       <div className="header-right">
         <button
           type="button"

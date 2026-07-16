@@ -9,10 +9,10 @@ import { useDashboard } from "../hooks/useDashboard";
 const FILTERS = ["Sector", "Value Chain", "Year", "Status"];
 
 function DashboardPage() {
-  const { summary, sectors, benchmarkStatus, longList, loading, error } = useDashboard();
+  const { summary, sectors, benchmarkStatus, longList, loading, error, retry } = useDashboard();
 
   if (loading) return <Loading />;
-  if (error) return <ErrorMessage message={error} />;
+  if (error) return <ErrorMessage message={error} onRetry={retry} />;
 
   const percentBenchmarked = summary.totalSolutions
     ? ((summary.benchmarkedSolutions / summary.totalSolutions) * 100).toFixed(1)

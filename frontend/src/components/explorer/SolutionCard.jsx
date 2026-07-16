@@ -12,7 +12,9 @@ function SolutionCard({ solution, active, onClick }) {
       onClick={onClick}
       onKeyDown={(e) => e.key === "Enter" && onClick()}
     >
-      <div className="solution-row-name">{solution[FIELDS.name]}</div>
+      <div className="solution-row-name" title={solution[FIELDS.name]}>
+        {solution[FIELDS.name]}
+      </div>
       <div className="solution-row-meta">
         <span className="row-sector">{solution[FIELDS.sector] || "-"}</span>
         <span className={`row-status ${benchmarked ? "done" : "pending"}`}>

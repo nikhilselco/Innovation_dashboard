@@ -51,32 +51,35 @@ function SolutionSidebar({
         </div>
 
         <div className="chip-row">
-          <span
+          <button
+            type="button"
             className={`chip-sm${activeSector === null ? " active" : ""}`}
             onClick={() => onSelectSector(null)}
           >
             All
-          </span>
+          </button>
           {sectors.map((s) => (
-            <span
+            <button
+              type="button"
               key={s.sector}
               className={`chip-sm${activeSector === s.sector ? " active" : ""}`}
               onClick={() => onSelectSector(s.sector)}
             >
               {s.sector}
-            </span>
+            </button>
           ))}
         </div>
 
         <div className="chip-row" style={{ marginTop: 8 }}>
           {STATUS_OPTIONS.map((opt) => (
-            <span
+            <button
+              type="button"
               key={opt.value}
               className={`chip-sm${status === opt.value ? " active" : ""}`}
               onClick={() => onStatusChange(opt.value)}
             >
               {opt.label}
-            </span>
+            </button>
           ))}
         </div>
       </div>

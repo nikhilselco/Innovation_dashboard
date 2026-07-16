@@ -166,7 +166,7 @@ function CompareTab({ solution, allSolutions }) {
 
   return (
     <div style={{ overflowX: "auto" }}>
-      <table className="solutions-table">
+      <table className="solutions-table compare-table">
         <thead>
           <tr>
             <th>Parameter</th>

@@ -9,7 +9,7 @@ import ErrorMessage from "../components/common/ErrorMessage";
 import { FIELDS, isBenchmarked, getImplementationsCount } from "../utils/helpers";
 
 function SolutionExplorerPage() {
-  const { solutions, loading, error } = useLongList();
+  const { solutions, loading, error, retry } = useLongList();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -72,7 +72,7 @@ function SolutionExplorerPage() {
     }
   }, [loading, id, filtered, navigate]);
 
-  if (error) return <ErrorMessage message={error} />;
+  if (error) return <ErrorMessage message={error} onRetry={retry} />;
 
   const statsSource = filtered;
   const statBenchmarked = statsSource.filter(isBenchmarked).length;
