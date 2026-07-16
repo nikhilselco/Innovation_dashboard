@@ -8,14 +8,27 @@ const NAV_ITEMS = [
   { to: "/tracker", label: "Benchmark Tracker", icon: "ti-calendar-stats" },
 ];
 
+const MOBILE_BREAKPOINT = 768;
+
 function MainLayout() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(
+    () => typeof window !== "undefined" && window.innerWidth <= MOBILE_BREAKPOINT
+  );
+
+  const closeOnMobile = () => {
+    if (window.innerWidth <= MOBILE_BREAKPOINT) setCollapsed(true);
+  };
 
   return (
     <div className="app-shell">
       <aside className={`sidebar${collapsed ? " collapsed" : ""}`}>
         <div className="sidebar-brand">
-          <Link to="/" className="sidebar-brand-link" title="Go to Overall Dashboard">
+          <Link
+            to="/"
+            className="sidebar-brand-link"
+            title="Go to Overall Dashboard"
+            onClick={closeOnMobile}
+          >
             <img src="/selco-foundation.png" alt="SELCO Foundation" />
             <div className="sidebar-brand-text">
               <strong>SELCO</strong>
@@ -44,6 +57,7 @@ function MainLayout() {
               to={item.to}
               end={item.end}
               title={item.label}
+              onClick={closeOnMobile}
               className={({ isActive }) =>
                 `sidebar-link${isActive ? " active" : ""}`
               }
@@ -55,8 +69,10 @@ function MainLayout() {
         </nav>
       </aside>
 
+      {!collapsed && <div className="sidebar-backdrop" onClick={() => setCollapsed(true)}></div>}
+
       <div className="app-main">
-        <Header />
+        <Header onMenuClick={() => setCollapsed((c) => !c)} />
         <Outlet />
       </div>
     </div>

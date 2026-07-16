@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getLastUpdated } from "../../api/dashboardApi";
 import { formatDate } from "../../utils/formatDate";
 
-function Header() {
+function Header({ onMenuClick }) {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
 
@@ -19,6 +19,15 @@ function Header() {
 
   return (
     <div className="app-header">
+      <button
+        type="button"
+        className="icon-btn mobile-menu-btn"
+        onClick={onMenuClick}
+        aria-label="Open menu"
+      >
+        <i className="ti ti-menu-2" aria-hidden="true"></i>
+      </button>
+
       <div className="search-box">
         <i className="ti ti-search" aria-hidden="true"></i>
         <input type="text" placeholder="Search solutions" />

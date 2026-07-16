@@ -9,17 +9,12 @@ export function useMinLoadingTime(isLoading, minMs = 300) {
   useEffect(() => {
     if (isLoading) {
       startRef.current = Date.now();
-      setDisplayLoading(true);
-      return;
+      const timer = setTimeout(() => setDisplayLoading(true), 0);
+      return () => clearTimeout(timer);
     }
 
     const elapsed = startRef.current ? Date.now() - startRef.current : minMs;
     const remaining = Math.max(minMs - elapsed, 0);
-
-    if (remaining === 0) {
-      setDisplayLoading(false);
-      return;
-    }
 
     const timer = setTimeout(() => setDisplayLoading(false), remaining);
     return () => clearTimeout(timer);

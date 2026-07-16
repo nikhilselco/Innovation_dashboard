@@ -1082,3 +1082,150 @@
   font-size: 12px !important;
   opacity: 0.8;
 }
+
+/* ---------- Mobile menu button + sidebar backdrop ---------- */
+.mobile-menu-btn {
+  display: none;
+}
+
+.sidebar-backdrop {
+  display: none;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+/* ---------- Responsive breakpoints ---------- */
+
+/* Tablet: stack the two-column layouts, keep sidebar as a persistent rail */
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .explorer-layout {
+    grid-template-columns: 260px 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .explorer-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .browse-panel {
+    position: static;
+    max-height: none;
+  }
+
+  .solution-list {
+    max-height: 360px;
+  }
+
+  .param-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile: sidebar becomes an off-canvas drawer */
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 50;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.2s ease;
+  }
+
+  .sidebar:not(.collapsed) {
+    transform: translateX(0);
+  }
+
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    z-index: 40;
+  }
+
+  .dashboard-content {
+    padding: 18px 16px 40px;
+  }
+
+  .app-header {
+    padding: 10px 16px;
+    gap: 10px;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+
+  .header-right {
+    gap: 8px;
+  }
+
+  .last-synced span,
+  .last-synced {
+    font-size: 10px;
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .page-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .page-title-row h2 {
+    font-size: 20px;
+  }
+
+  .detail-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .detail-hero-right {
+    text-align: left;
+  }
+
+  .tabs-bar {
+    padding: 0 16px;
+  }
+
+  .tab-body {
+    padding: 16px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kpi-value {
+    font-size: 24px;
+  }
+
+  .last-synced {
+    display: none;
+  }
+
+  .card {
+    padding: 14px 16px;
+  }
+}

@@ -43,6 +43,7 @@ function RecentSolutionsTable({ solutions }) {
           View all in Explorer <i className="ti ti-arrow-right" aria-hidden="true"></i>
         </a>
       </div>
+      <div className="table-scroll">
       <table className="solutions-table">
         <thead>
           <tr>
@@ -106,6 +107,7 @@ function RecentSolutionsTable({ solutions }) {
           })}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }
