@@ -51,6 +51,17 @@ export function isPriority(row) {
   return typeof value === "string" && value.trim().toLowerCase() === "yes";
 }
 
+// A few sector values in the source Excel are variants of the same real
+// sector and should be treated as one everywhere sectors are grouped/filtered.
+const SECTOR_ALIASES = {
+  "Agriculture - NTFP": "Agriculture",
+};
+
+export function getSector(row) {
+  const raw = row[FIELDS.sector] || "Unknown";
+  return SECTOR_ALIASES[raw] || raw;
+}
+
 export function getImplementationsCount(row) {
   return Number(row[FIELDS.implementations]) || 0;
 }

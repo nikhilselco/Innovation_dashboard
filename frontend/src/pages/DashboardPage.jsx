@@ -6,7 +6,7 @@ import RecentSolutionsTable from "../components/dashboard/RecentSolutionsTable";
 import Loading from "../components/common/Loading";
 import ErrorMessage from "../components/common/ErrorMessage";
 import { useDashboard } from "../hooks/useDashboard";
-import { FIELDS, isBenchmarked, isPriority } from "../utils/helpers";
+import { FIELDS, isBenchmarked, isPriority, getSector } from "../utils/helpers";
 
 function DashboardPage() {
   const { longList, loading, error, retry } = useDashboard();
@@ -25,7 +25,7 @@ function DashboardPage() {
     const years = new Set();
 
     longList.forEach((row) => {
-      if (row[FIELDS.sector]) sectors.add(row[FIELDS.sector]);
+      sectors.add(getSector(row));
       if (row[FIELDS.valueChain]) valueChains.add(row[FIELDS.valueChain].trim());
       if (row[FIELDS.updateYear]) years.add(String(row[FIELDS.updateYear]));
     });
@@ -41,7 +41,7 @@ function DashboardPage() {
     if (!longList) return [];
 
     return longList.filter((row) => {
-      if (sectorFilter && row[FIELDS.sector] !== sectorFilter) return false;
+      if (sectorFilter && getSector(row) !== sectorFilter) return false;
       if (valueChainFilter && row[FIELDS.valueChain]?.trim() !== valueChainFilter) return false;
       if (yearFilter && String(row[FIELDS.updateYear]) !== yearFilter) return false;
       if (statusFilter === "benchmarked" && !isBenchmarked(row)) return false;
@@ -62,7 +62,7 @@ function DashboardPage() {
   ).size;
   const sectorCounts = {};
   filtered.forEach((row) => {
-    const sector = row[FIELDS.sector] || "Unknown";
+    const sector = getSector(row);
     sectorCounts[sector] = (sectorCounts[sector] || 0) + 1;
   });
   const sectors = Object.entries(sectorCounts).map(([sector, count]) => ({ sector, count }));
