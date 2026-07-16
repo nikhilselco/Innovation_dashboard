@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import KPICard from "../components/dashboard/KPICard";
+import SolutionSearch from "../components/dashboard/SolutionSearch";
 import SectorChart from "../components/dashboard/SectorChart";
 import BenchmarkStatusChart from "../components/dashboard/BenchmarkChart";
 import RecentSolutionsTable from "../components/dashboard/RecentSolutionsTable";
@@ -93,6 +94,8 @@ function DashboardPage() {
           <p>High-level overview of benchmarking progress and solution distribution.</p>
         </div>
       </div>
+
+      <SolutionSearch solutions={longList} />
 
       <div className="filter-row">
         <span className="filter-label">Filters</span>
