@@ -94,10 +94,10 @@ function SolutionSidebar({
         ) : (
           items.map((row) => (
             <SolutionCard
-              key={row["Sr No."]}
+              key={row.__uid}
               solution={row}
-              active={String(row["Sr No."]) === String(selectedId)}
-              onClick={() => onSelectSolution(row["Sr No."])}
+              active={String(row.__uid) === String(selectedId)}
+              onClick={() => onSelectSolution(row.__uid)}
             />
           ))
         )}

@@ -30,8 +30,8 @@ function KanbanCard({ solution }) {
       className="kanban-card"
       role="button"
       tabIndex={0}
-      onClick={() => navigate(`/explorer/${solution[FIELDS.srNo]}`)}
-      onKeyDown={(e) => e.key === "Enter" && navigate(`/explorer/${solution[FIELDS.srNo]}`)}
+      onClick={() => navigate(`/explorer/${solution.__uid}`)}
+      onKeyDown={(e) => e.key === "Enter" && navigate(`/explorer/${solution.__uid}`)}
     >
       <p className="kanban-card-title">{solution[FIELDS.name]}</p>
       <p className="kanban-card-meta">

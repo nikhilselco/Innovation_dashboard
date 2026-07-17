@@ -62,12 +62,12 @@ function SolutionExplorerPage() {
 
   const selected = useMemo(() => {
     if (!solutions || !id) return null;
-    return solutions.find((row) => String(row[FIELDS.srNo]) === String(id)) || null;
+    return solutions.find((row) => String(row.__uid) === String(id)) || null;
   }, [solutions, id]);
 
   useEffect(() => {
     if (!loading && !id && filtered.length > 0) {
-      navigate(`/explorer/${filtered[0][FIELDS.srNo]}`, { replace: true });
+      navigate(`/explorer/${filtered[0].__uid}`, { replace: true });
     }
   }, [loading, id, filtered, navigate]);
 
@@ -171,7 +171,7 @@ function SolutionExplorerPage() {
               onStatusChange={setStatus}
               items={filtered}
               selectedId={id}
-              onSelectSolution={(srNo) => navigate(`/explorer/${srNo}`)}
+              onSelectSolution={(uid) => navigate(`/explorer/${uid}`)}
             />
 
             <div className="explorer-main">
@@ -179,7 +179,7 @@ function SolutionExplorerPage() {
                 <div className="detail-panel">
                   <DetailHeader solution={selected} />
                   <DetailTabs
-                    key={selected[FIELDS.srNo]}
+                    key={selected.__uid}
                     solution={selected}
                     allSolutions={solutions}
                   />

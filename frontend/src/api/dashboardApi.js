@@ -38,7 +38,10 @@ export const getBenchmarkStatus = withCache("benchmark-status", async () => {
 
 export const getLongList = withCache("longlist", async () => {
   const res = await api.get("/api/dashboard/longlist");
-  return res.data;
+  // The source Excel sheet has duplicate "Sr No." values for a handful of
+  // rows, so it can't be trusted as a unique key/id. Stamp a real one here,
+  // once, so every consumer (Explorer routing, list keys, search) is safe.
+  return res.data.map((row, index) => ({ ...row, __uid: index }));
 });
 
 export const getLastUpdated = withCache("last-updated", async () => {

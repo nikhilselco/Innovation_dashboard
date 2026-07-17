@@ -171,7 +171,7 @@ function CompareTab({ solution, allSolutions }) {
           <tr>
             <th>Parameter</th>
             {all.map((row) => (
-              <th key={row[FIELDS.srNo]} style={{ color: row === solution ? "var(--brand-700)" : undefined }}>
+              <th key={row.__uid} style={{ color: row === solution ? "var(--brand-700)" : undefined }}>
                 {row[FIELDS.name]}
               </th>
             ))}
@@ -188,7 +188,7 @@ function CompareTab({ solution, allSolutions }) {
             <tr key={label}>
               <td style={{ color: "var(--color-text-tertiary)", fontWeight: 600 }}>{label}</td>
               {all.map((row) => (
-                <td key={row[FIELDS.srNo]}>{fn(row) || "-"}</td>
+                <td key={row.__uid}>{fn(row) || "-"}</td>
               ))}
             </tr>
           ))}

@@ -26,7 +26,7 @@ function DocHeatmap({ solutions }) {
           <p className="heatmap-empty">No solutions match the current filters.</p>
         ) : (
           solutions.map((row) => (
-            <div className="hm-row" key={row[FIELDS.srNo]}>
+            <div className="hm-row" key={row.__uid}>
               <div className="hm-name" title={row[FIELDS.name]}>
                 {row[FIELDS.name]}
               </div>

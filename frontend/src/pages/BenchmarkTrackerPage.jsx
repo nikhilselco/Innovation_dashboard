@@ -44,8 +44,8 @@ function BenchmarkTrackerPage() {
       if (sectorFilter && getSector(row) !== sectorFilter) return false;
       if (valueChainFilter && row[FIELDS.valueChain]?.trim() !== valueChainFilter) return false;
       if (yearFilter && String(row[FIELDS.updateYear]) !== yearFilter) return false;
-      if (priorityOnly && !isPriority(row)) return false;
       if (searchLower && !(row[FIELDS.name] || "").toLowerCase().includes(searchLower)) return false;
+      if (!searchLower && priorityOnly && !isPriority(row)) return false;
       return true;
     });
   }, [solutions, search, sectorFilter, valueChainFilter, yearFilter, priorityOnly]);

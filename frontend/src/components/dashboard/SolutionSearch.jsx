@@ -24,7 +24,7 @@ function SolutionSearch({ solutions }) {
     : [];
 
   const goToSolution = (row) => {
-    navigate(`/explorer/${row[FIELDS.srNo]}`);
+    navigate(`/explorer/${row.__uid}`);
     setQuery("");
     setOpen(false);
   };
@@ -56,7 +56,7 @@ function SolutionSearch({ solutions }) {
               return (
                 <button
                   type="button"
-                  key={row[FIELDS.srNo]}
+                  key={row.__uid}
                   className="search-dropdown-item"
                   onClick={() => goToSolution(row)}
                 >

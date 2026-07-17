@@ -1,5 +1,4 @@
 import KanbanCard from "./KanbanCard";
-import { FIELDS } from "../../utils/helpers";
 
 function KanbanColumn({ title, tone, items }) {
   return (
@@ -13,7 +12,7 @@ function KanbanColumn({ title, tone, items }) {
         {items.length === 0 ? (
           <p className="kanban-empty">Nothing here.</p>
         ) : (
-          items.map((row) => <KanbanCard key={row[FIELDS.srNo]} solution={row} />)
+          items.map((row) => <KanbanCard key={row.__uid} solution={row} />)
         )}
       </div>
     </div>
