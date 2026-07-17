@@ -21,7 +21,6 @@ const TABS = [
 
 function ParamBlock({ icon, title, value, full }) {
   if (!hasContent(value)) return null;
-
   const url = extractUrl(value);
 
   return (

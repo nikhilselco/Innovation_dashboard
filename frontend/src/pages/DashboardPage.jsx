@@ -11,7 +11,6 @@ import { FIELDS, isBenchmarked, isPriority, getSector } from "../utils/helpers";
 
 function DashboardPage() {
   const { longList, loading, error, retry } = useDashboard();
-
   const [sectorFilter, setSectorFilter] = useState("");
   const [valueChainFilter, setValueChainFilter] = useState("");
   const [yearFilter, setYearFilter] = useState("");

@@ -7,9 +7,6 @@ export function extractUrl(value) {
   return match ? match[0] : null;
 }
 
-// For text that mixes a description with a link (e.g. "Weeder Financial
-// Model.xlsx https://..."), show just the description. Falls back to the
-// URL itself when there's no other text (a bare link with nothing else).
 export function getLinkLabel(value) {
   if (typeof value !== "string") return value;
 

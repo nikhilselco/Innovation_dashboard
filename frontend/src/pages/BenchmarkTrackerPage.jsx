@@ -12,7 +12,6 @@ import { downloadCsv } from "../utils/csv";
 
 function BenchmarkTrackerPage() {
   const { solutions, loading, error, retry } = useLongList();
-
   const [search, setSearch] = useState("");
   const [sectorFilter, setSectorFilter] = useState("");
   const [valueChainFilter, setValueChainFilter] = useState("");
@@ -25,13 +24,11 @@ function BenchmarkTrackerPage() {
     const sectors = new Set();
     const valueChains = new Set();
     const years = new Set();
-
     solutions.forEach((row) => {
       sectors.add(getSector(row));
       if (row[FIELDS.valueChain]) valueChains.add(row[FIELDS.valueChain].trim());
       if (row[FIELDS.updateYear]) years.add(String(row[FIELDS.updateYear]));
     });
-
     return {
       sectors: [...sectors].sort(),
       valueChains: [...valueChains].sort(),
@@ -41,7 +38,6 @@ function BenchmarkTrackerPage() {
 
   const filtered = useMemo(() => {
     if (!solutions) return [];
-
     const searchLower = search.trim().toLowerCase();
 
     return solutions.filter((row) => {

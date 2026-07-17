@@ -21,7 +21,6 @@ function excelSerialToDate(serial) {
 function parseCalendar(rawData, sheet) {
   const headers = rawData[3];
   const rows = rawData.slice(7);
-
   return rows
     .map((row, i) => ({ row, sheetRow: 7 + i }))
     .filter(({ row }) => row[2])
@@ -32,7 +31,6 @@ function parseCalendar(rawData, sheet) {
 
         if (sheet) {
           const link = getCellLink(sheet, sheetRow, index);
-
           if (link) {
             if (typeof value === "string" && value.trim()) {
               if (!value.includes(link)) value = `${value} ${link}`;
@@ -41,7 +39,6 @@ function parseCalendar(rawData, sheet) {
             }
           }
         }
-
         item[header] = value;
       });
 
@@ -50,7 +47,6 @@ function parseCalendar(rawData, sheet) {
           item[column] = excelSerialToDate(item[column]);
         }
       });
-
       return item;
     });
 }

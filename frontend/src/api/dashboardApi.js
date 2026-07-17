@@ -11,14 +11,11 @@ function withCache(key, fetcher) {
   return () => {
     const cached = cache.get(key);
     const isFresh = cached && Date.now() - cached.time < CACHE_TTL_MS;
-
     if (isFresh) return cached.promise;
-
     const promise = fetcher().catch((err) => {
       cache.delete(key);
       throw err;
     });
-
     cache.set(key, { promise, time: Date.now() });
     return promise;
   };

@@ -14,7 +14,6 @@ function MainLayout() {
   const [collapsed, setCollapsed] = useState(
     () => typeof window !== "undefined" && window.innerWidth <= MOBILE_BREAKPOINT
   );
-
   const closeOnMobile = () => {
     if (window.innerWidth <= MOBILE_BREAKPOINT) setCollapsed(true);
   };

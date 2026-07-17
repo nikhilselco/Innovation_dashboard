@@ -10,7 +10,6 @@ export function useLongList() {
 
   useEffect(() => {
     let cancelled = false;
-
     getLongList()
       .then((data) => {
         if (!cancelled) setSolutions(data);
@@ -21,7 +20,6 @@ export function useLongList() {
       .finally(() => {
         if (!cancelled) setLoading(false);
       });
-
     return () => {
       cancelled = true;
     };

@@ -12,7 +12,6 @@ function SolutionExplorerPage() {
   const { solutions, loading, error, retry } = useLongList();
   const { id } = useParams();
   const navigate = useNavigate();
-
   const [search, setSearch] = useState("");
   const [activeSector, setActiveSector] = useState(null);
   const [status, setStatus] = useState("all");

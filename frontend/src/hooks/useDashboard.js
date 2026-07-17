@@ -51,7 +51,6 @@ export function useDashboard() {
       .finally(() => {
         if (!cancelled) setLoading(false);
       });
-
     return () => {
       cancelled = true;
     };
@@ -64,6 +63,5 @@ export function useDashboard() {
     setError(null);
     setRetryCount((c) => c + 1);
   };
-
   return { ...data, loading: displayLoading, error, retry };
 }

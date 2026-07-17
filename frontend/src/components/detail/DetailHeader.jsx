@@ -11,7 +11,6 @@ function DetailHeader({ solution }) {
   const priority = isPriority(solution);
   const impl = getImplementationsCount(solution);
   const innovationType = solution[FIELDS.innovationType];
-
   const metaParts = [
     solution[FIELDS.segment],
     solution[FIELDS.activity],
