@@ -26,19 +26,6 @@ function countBenchmarkStatus(longList) {
   return { benchmarked, pending };
 }
 
-const getDashboardData = asyncHandler((req, res) => {
-  const cache = getCache();
-  res.json({
-    lastUpdated: cache.lastUpdated,
-    longListCount: cache.longList.length,
-    valueChainCount: cache.valueChain.length,
-    calendarCount: cache.calendar.length,
-    longList: cache.longList,
-    valueChain: cache.valueChain,
-    calendar: cache.calendar,
-  });
-});
-
 const getDashboardSummary = asyncHandler((req, res) => {
   const cache = getCache();
   const { benchmarked, pending } = countBenchmarkStatus(cache.longList);
@@ -56,11 +43,6 @@ const getLongList = asyncHandler((req, res) => {
   res.json(cache.longList);
 });
 
-const getValueChain = asyncHandler((req, res) => {
-  const cache = getCache();
-  res.json(cache.valueChain);
-});
-
 const getCalendar = asyncHandler((req, res) => {
   const cache = getCache();
   res.json(cache.calendar);
@@ -69,14 +51,6 @@ const getCalendar = asyncHandler((req, res) => {
 const getSectorSummary = asyncHandler((req, res) => {
   const cache = getCache();
   const grouped = groupCount(cache.longList, "Sector").map(
-    ({ name, count }) => ({ sector: name, count })
-  );
-  res.json(grouped);
-});
-
-const getValueChainSummary = asyncHandler((req, res) => {
-  const cache = getCache();
-  const grouped = groupCount(cache.valueChain, "Sector").map(
     ({ name, count }) => ({ sector: name, count })
   );
   res.json(grouped);
@@ -94,13 +68,10 @@ const getLastUpdated = asyncHandler((req, res) => {
 });
 
 module.exports = {
-  getDashboardData,
   getDashboardSummary,
   getLongList,
-  getValueChain,
   getCalendar,
   getSectorSummary,
-  getValueChainSummary,
   getBenchmarkStatus,
   getLastUpdated,
 };
