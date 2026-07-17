@@ -65,6 +65,10 @@
 
   /* Surfaces that need translucency (topbar blur) */
   --header-bg: rgba(255, 255, 255, 0.85);
+
+  /* Heatmap "empty" cell fill - needs to read as a distinct tile against
+     its own card background, not just a subtle tint. */
+  --heatmap-empty-bg: var(--color-background-secondary);
 }
 
 :root[data-theme="dark"] {
@@ -116,4 +120,9 @@
   --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.3);
 
   --header-bg: rgba(19, 21, 25, 0.85);
+
+  /* Noticeably lighter than the card background so "missing" cells stay
+     visible instead of blending in (was using --color-background-secondary,
+     which sits too close to the card's own dark background to read clearly). */
+  --heatmap-empty-bg: var(--gray-300);
 }

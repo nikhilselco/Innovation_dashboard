@@ -1488,7 +1488,7 @@ select:focus-visible,
 }
 
 .hm-off {
-  background: var(--color-background-secondary);
+  background: var(--heatmap-empty-bg);
   border: 1px solid var(--color-border-tertiary);
 }
 
