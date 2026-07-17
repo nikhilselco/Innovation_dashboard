@@ -100,7 +100,7 @@ function BenchmarkTrackerPage() {
       <div className="page-title-row">
         <div>
           <h2>Benchmarking Tracker</h2>
-          <p>Pipeline status and documentation completeness for priority value chains.</p>
+          <p>See which solutions are documented, in progress, or still pending.</p>
         </div>
         <button type="button" className="export-btn" onClick={exportCsv}>
           <i className="ti ti-download" aria-hidden="true"></i> Export CSV
