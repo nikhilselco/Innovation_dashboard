@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const compression = require("compression");
 const dashboardRoutes = require("./src/routes/dashboard.routes");
 const { startExcelMonitor } = require("./src/polling/excel-monitor.service");
 const app = express();
@@ -10,6 +11,7 @@ const ALLOWED_ORIGINS = [
   "http://localhost:5173",
 ];
 
+app.use(compression());
 app.use(
   cors({
     origin: ALLOWED_ORIGINS,
