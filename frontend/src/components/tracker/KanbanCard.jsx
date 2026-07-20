@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { FIELDS, VALUE_CHAIN_FIELD, extractUrl, getDocStatus } from "../../utils/helpers";
 
@@ -56,4 +57,4 @@ function KanbanCard({ solution }) {
   );
 }
 
-export default KanbanCard;
+export default memo(KanbanCard);

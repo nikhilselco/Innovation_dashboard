@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useLongList } from "../hooks/useLongList";
 import SolutionSidebar from "../components/explorer/SolutionSidebar";
@@ -59,6 +59,11 @@ function SolutionExplorerPage() {
 
     return rows;
   }, [solutions, search, activeSector, status, sortBy]);
+
+  const handleSelectSolution = useCallback(
+    (uid) => navigate(`/explorer/${uid}`),
+    [navigate]
+  );
 
   const selected = useMemo(() => {
     if (!solutions || !id) return null;
@@ -171,7 +176,7 @@ function SolutionExplorerPage() {
               onStatusChange={setStatus}
               items={filtered}
               selectedId={id}
-              onSelectSolution={(uid) => navigate(`/explorer/${uid}`)}
+              onSelectSolution={handleSelectSolution}
             />
 
             <div className="explorer-main">

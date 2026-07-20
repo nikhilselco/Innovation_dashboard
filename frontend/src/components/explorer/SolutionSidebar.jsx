@@ -97,7 +97,7 @@ function SolutionSidebar({
               key={row.__uid}
               solution={row}
               active={String(row.__uid) === String(selectedId)}
-              onClick={() => onSelectSolution(row.__uid)}
+              onSelect={onSelectSolution}
             />
           ))
         )}

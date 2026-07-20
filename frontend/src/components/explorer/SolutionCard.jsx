@@ -1,16 +1,18 @@
+import { memo } from "react";
 import { FIELDS, isBenchmarked, getImplementationsCount } from "../../utils/helpers";
 
-function SolutionCard({ solution, active, onClick }) {
+function SolutionCard({ solution, active, onSelect }) {
   const benchmarked = isBenchmarked(solution);
   const impl = getImplementationsCount(solution);
+  const handleSelect = () => onSelect(solution.__uid);
 
   return (
     <div
       className={`solution-row${active ? " active" : ""}`}
       role="button"
       tabIndex={0}
-      onClick={onClick}
-      onKeyDown={(e) => e.key === "Enter" && onClick()}
+      onClick={handleSelect}
+      onKeyDown={(e) => e.key === "Enter" && handleSelect()}
     >
       <div className="solution-row-name" title={solution[FIELDS.name]}>
         {solution[FIELDS.name]}
@@ -27,4 +29,4 @@ function SolutionCard({ solution, active, onClick }) {
   );
 }
 
-export default SolutionCard;
+export default memo(SolutionCard);

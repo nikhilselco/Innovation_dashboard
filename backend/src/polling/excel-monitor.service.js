@@ -1,13 +1,21 @@
 const { getAllDashboardData } = require("../services/excel/excel.service");
+const { getFileLastModified } = require("../services/graph/graph.service");
 const { setCache } = require("../cache/dashboard-cache");
 
 const POLL_INTERVAL_MS = 30 * 1000;
 let monitorInterval;
+let lastSeenModified = null;
 
 async function refreshCache() {
   try {
+    const lastModified = await getFileLastModified();
+    if (lastModified && lastModified === lastSeenModified) {
+      return;
+    }
+
     const { longList, valueChain, calendar } = await getAllDashboardData();
     setCache({ longList, valueChain, calendar });
+    lastSeenModified = lastModified;
     console.log(
       `[excel-monitor] cache refreshed at ${new Date().toISOString()}`
     );
