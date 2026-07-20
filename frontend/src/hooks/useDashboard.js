@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { getSummary, getLongList } from "../api/dashboardApi";
+import { getSummary, getLongList, invalidateCache } from "../api/dashboardApi";
+import { subscribeToDataUpdates } from "../api/realtime";
 import { FIELDS, isBenchmarked } from "../utils/helpers";
 import { useMinLoadingTime } from "./useMinLoadingTime";
 
@@ -44,6 +45,7 @@ export function useDashboard() {
           longList,
           lastUpdated: summary.lastUpdated,
         });
+        setError(null);
       })
       .catch((err) => {
         if (!cancelled) setError(err.message);
@@ -55,6 +57,16 @@ export function useDashboard() {
       cancelled = true;
     };
   }, [retryCount]);
+
+  // Server pushes this event only when the source Excel data actually
+  // changed, so this triggers a silent refetch - no loading flash, since
+  // nothing here sets `loading` back to true.
+  useEffect(() => {
+    return subscribeToDataUpdates(() => {
+      invalidateCache();
+      setRetryCount((c) => c + 1);
+    });
+  }, []);
 
   const displayLoading = useMinLoadingTime(loading);
 

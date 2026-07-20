@@ -1,9 +1,11 @@
 require("dotenv").config();
+const http = require("http");
 const express = require("express");
 const cors = require("cors");
 const compression = require("compression");
 const dashboardRoutes = require("./src/routes/dashboard.routes");
 const { startExcelMonitor } = require("./src/polling/excel-monitor.service");
+const { initSocket } = require("./src/realtime/socket.service");
 const app = express();
 
 const ALLOWED_ORIGINS = [
@@ -38,7 +40,10 @@ app.use((error, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, async () => {
+const server = http.createServer(app);
+initSocket(server, ALLOWED_ORIGINS);
+
+server.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
   await startExcelMonitor();
 });

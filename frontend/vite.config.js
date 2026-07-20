@@ -8,6 +8,6 @@ export default defineConfig({
     // Dashboard (default route) + Recharts are deliberately kept in the main
     // bundle to avoid a request waterfall on first load, so this chunk being
     // large is expected, not a mistake worth warning about on every build.
-    chunkSizeWarningLimit: 700,
+    chunkSizeWarningLimit: 750,
   },
 })

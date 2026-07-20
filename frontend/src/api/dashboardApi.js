@@ -7,6 +7,10 @@ import api from "./axios";
 const CACHE_TTL_MS = 60000;
 const cache = new Map();
 
+export function invalidateCache() {
+  cache.clear();
+}
+
 function withCache(key, fetcher) {
   return () => {
     const cached = cache.get(key);
