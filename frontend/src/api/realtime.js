@@ -16,3 +16,16 @@ export function subscribeToDataUpdates(callback) {
   activeSocket.on("data-updated", callback);
   return () => activeSocket.off("data-updated", callback);
 }
+
+export function subscribeToConnectionStatus(callback) {
+  const activeSocket = getSocket();
+  const handleConnect = () => callback(true);
+  const handleDisconnect = () => callback(false);
+  activeSocket.on("connect", handleConnect);
+  activeSocket.on("disconnect", handleDisconnect);
+  callback(activeSocket.connected);
+  return () => {
+    activeSocket.off("connect", handleConnect);
+    activeSocket.off("disconnect", handleDisconnect);
+  };
+}

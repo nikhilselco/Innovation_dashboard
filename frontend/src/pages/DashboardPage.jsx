@@ -86,7 +86,7 @@ function DashboardPage() {
   };
 
   return (
-    <main className="dashboard-content">
+    <main className="dashboard-content" id="main-content" tabIndex={-1}>
       <div className="page-title-row">
         <div>
           <h2>Overall Dashboard</h2>
@@ -102,6 +102,7 @@ function DashboardPage() {
         <div className="select-wrapper filter-select-wrapper">
           <select
             className="sort-select filter-select"
+            aria-label="Filter by sector"
             value={sectorFilter}
             onChange={(e) => setSectorFilter(e.target.value)}
           >
@@ -118,6 +119,7 @@ function DashboardPage() {
         <div className="select-wrapper filter-select-wrapper">
           <select
             className="sort-select filter-select"
+            aria-label="Filter by value chain"
             value={valueChainFilter}
             onChange={(e) => setValueChainFilter(e.target.value)}
           >
@@ -134,6 +136,7 @@ function DashboardPage() {
         <div className="select-wrapper filter-select-wrapper">
           <select
             className="sort-select filter-select"
+            aria-label="Filter by year"
             value={yearFilter}
             onChange={(e) => setYearFilter(e.target.value)}
           >
@@ -150,6 +153,7 @@ function DashboardPage() {
         <div className="select-wrapper filter-select-wrapper">
           <select
             className="sort-select filter-select"
+            aria-label="Filter by benchmarking status"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
@@ -163,6 +167,7 @@ function DashboardPage() {
         <button
           type="button"
           className={`chip${priorityOnly ? " active" : ""}`}
+          aria-pressed={priorityOnly}
           onClick={() => setPriorityOnly((p) => !p)}
         >
           <i className="ti ti-star" style={{ fontSize: 11 }} aria-hidden="true"></i> Priority only

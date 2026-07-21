@@ -35,39 +35,44 @@ function ChartTooltip({ active, payload }) {
 
 function SectorChart({ data }) {
   const sorted = [...data].sort((a, b) => b.count - a.count);
+  const summary = `Bar chart of solutions by sector: ${sorted
+    .map((s) => `${s.sector} ${s.count}`)
+    .join(", ")}`;
 
   return (
     <div className="card">
       <p className="card-title">Solutions by Sector</p>
-      <ResponsiveContainer width="100%" height={sorted.length * 30 + 10}>
-        <BarChart
-          data={sorted}
-          layout="vertical"
-          margin={{ top: 0, right: 32, bottom: 0, left: 0 }}
-          barCategoryGap={12}
-        >
-          <XAxis type="number" hide domain={[0, (max) => Math.ceil(max * 1.15)]} />
-          <YAxis
-            type="category"
-            dataKey="sector"
-            width={110}
-            tick={{ fontSize: 12, fill: "var(--color-text-secondary)", fontWeight: 500 }}
-            axisLine={false}
-            tickLine={false}
-          />
-          <Tooltip content={<ChartTooltip />} cursor={{ fill: "var(--color-background-secondary)" }} />
-          <Bar dataKey="count" radius={[6, 6, 6, 6]} barSize={10}>
-            {sorted.map((entry, index) => (
-              <Cell key={entry.sector} fill={COLORS[index % COLORS.length]} />
-            ))}
-            <LabelList
-              dataKey="count"
-              position="right"
-              style={{ fontSize: 12, fontWeight: 600, fill: "var(--color-text-primary)" }}
+      <div role="img" aria-label={summary}>
+        <ResponsiveContainer width="100%" height={sorted.length * 30 + 10}>
+          <BarChart
+            data={sorted}
+            layout="vertical"
+            margin={{ top: 0, right: 32, bottom: 0, left: 0 }}
+            barCategoryGap={12}
+          >
+            <XAxis type="number" hide domain={[0, (max) => Math.ceil(max * 1.15)]} />
+            <YAxis
+              type="category"
+              dataKey="sector"
+              width={110}
+              tick={{ fontSize: 12, fill: "var(--color-text-secondary)", fontWeight: 500 }}
+              axisLine={false}
+              tickLine={false}
             />
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+            <Tooltip content={<ChartTooltip />} cursor={{ fill: "var(--color-background-secondary)" }} />
+            <Bar dataKey="count" radius={[6, 6, 6, 6]} barSize={10}>
+              {sorted.map((entry, index) => (
+                <Cell key={entry.sector} fill={COLORS[index % COLORS.length]} />
+              ))}
+              <LabelList
+                dataKey="count"
+                position="right"
+                style={{ fontSize: 12, fontWeight: 600, fill: "var(--color-text-primary)" }}
+              />
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }

@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getLastUpdated } from "../../api/dashboardApi";
+import { subscribeToConnectionStatus } from "../../api/realtime";
 import { formatDate } from "../../utils/formatDate";
 
 function Header({ onMenuClick, onMenuHover }) {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
+  const [connected, setConnected] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
     getLastUpdated()
@@ -13,10 +16,26 @@ function Header({ onMenuClick, onMenuHover }) {
       .catch(() => {});
   }, []);
 
+  useEffect(() => subscribeToConnectionStatus(setConnected), []);
+
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      document.documentElement.requestFullscreen().catch(() => {});
+    }
+  };
 
   return (
     <div className="app-header">
@@ -42,10 +61,34 @@ function Header({ onMenuClick, onMenuHover }) {
           className="icon-btn"
           onClick={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
           aria-label="Toggle theme"
+          aria-pressed={theme === "dark"}
           title="Toggle light/dark theme"
         >
           <i className={`ti ${theme === "light" ? "ti-moon" : "ti-sun"}`} aria-hidden="true"></i>
         </button>
+
+        <button
+          type="button"
+          className="icon-btn"
+          onClick={toggleFullscreen}
+          aria-label="Toggle fullscreen"
+          aria-pressed={isFullscreen}
+          title="Toggle fullscreen"
+        >
+          <i className={`ti ${isFullscreen ? "ti-minimize" : "ti-maximize"}`} aria-hidden="true"></i>
+        </button>
+
+        {!connected && (
+          <span
+            className="connection-status"
+            role="status"
+            aria-live="polite"
+            title="Live updates are paused - reconnecting..."
+          >
+            <span className="status-dot"></span>
+            Reconnecting...
+          </span>
+        )}
 
         <span className="last-synced">
           <i className="ti ti-refresh" aria-hidden="true"></i>

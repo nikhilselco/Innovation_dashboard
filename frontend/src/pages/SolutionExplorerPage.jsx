@@ -84,7 +84,7 @@ function SolutionExplorerPage() {
   const statImpl = statsSource.reduce((sum, r) => sum + getImplementationsCount(r), 0);
 
   return (
-    <main className="dashboard-content">
+    <main className="dashboard-content" id="main-content" tabIndex={-1}>
       <div className="page-title-row">
         <div>
           <h2>Solution Explorer</h2>
@@ -191,7 +191,7 @@ function SolutionExplorerPage() {
                 </div>
               ) : (
                 <div className="detail-panel-empty">
-                  <p>No solutions match your filters. Try clearing the search or sector.</p>
+                  <p role="status">No solutions match your filters. Try clearing the search or sector.</p>
                 </div>
               )}
             </div>

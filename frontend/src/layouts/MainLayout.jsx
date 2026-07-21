@@ -29,6 +29,10 @@ function MainLayout() {
 
   return (
     <div className="app-shell">
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+
       <aside
         className={`sidebar${expanded ? "" : " collapsed"}`}
         onMouseEnter={() => setHoverOpen(true)}

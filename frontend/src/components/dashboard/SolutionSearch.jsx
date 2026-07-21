@@ -36,6 +36,9 @@ function SolutionSearch({ solutions }) {
         <input
           type="text"
           placeholder="Search solutions by name..."
+          aria-label="Search solutions by name"
+          aria-haspopup="listbox"
+          aria-expanded={open && trimmedQuery ? "true" : "false"}
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
@@ -49,7 +52,9 @@ function SolutionSearch({ solutions }) {
       {open && trimmedQuery && (
         <div className="search-dropdown">
           {matches.length === 0 ? (
-            <p className="search-dropdown-empty">No solutions match &quot;{query}&quot;.</p>
+            <p className="search-dropdown-empty" role="status">
+              No solutions match &quot;{query}&quot;.
+            </p>
           ) : (
             matches.map((row) => {
               const benchmarked = isBenchmarked(row);

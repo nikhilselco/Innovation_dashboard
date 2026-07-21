@@ -23,7 +23,7 @@ function DocHeatmap({ solutions }) {
         </div>
 
         {solutions.length === 0 ? (
-          <p className="heatmap-empty">No solutions match the current filters.</p>
+          <p className="heatmap-empty" role="status">No solutions match the current filters.</p>
         ) : (
           solutions.map((row) => (
             <div className="hm-row" key={row.__uid}>

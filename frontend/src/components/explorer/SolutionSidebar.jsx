@@ -32,6 +32,7 @@ function SolutionSidebar({
           <input
             type="text"
             placeholder="Search by name..."
+            aria-label="Search solutions by name"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
           />
@@ -40,6 +41,7 @@ function SolutionSidebar({
         <div className="select-wrapper browse-sort">
           <select
             className="sort-select"
+            aria-label="Sort solutions"
             value={sortBy}
             onChange={(e) => onSortChange(e.target.value)}
           >
@@ -54,6 +56,7 @@ function SolutionSidebar({
           <button
             type="button"
             className={`chip-sm${activeSector === null ? " active" : ""}`}
+            aria-pressed={activeSector === null}
             onClick={() => onSelectSector(null)}
           >
             All
@@ -63,6 +66,7 @@ function SolutionSidebar({
               type="button"
               key={s.sector}
               className={`chip-sm${activeSector === s.sector ? " active" : ""}`}
+              aria-pressed={activeSector === s.sector}
               onClick={() => onSelectSector(s.sector)}
             >
               {s.sector}
@@ -76,6 +80,7 @@ function SolutionSidebar({
               type="button"
               key={opt.value}
               className={`chip-sm${status === opt.value ? " active" : ""}`}
+              aria-pressed={status === opt.value}
               onClick={() => onStatusChange(opt.value)}
             >
               {opt.label}
@@ -90,7 +95,7 @@ function SolutionSidebar({
         </p>
 
         {items.length === 0 ? (
-          <p className="solution-list-empty">No solutions match your filters.</p>
+          <p className="solution-list-empty" role="status">No solutions match your filters.</p>
         ) : (
           items.map((row) => (
             <SolutionCard

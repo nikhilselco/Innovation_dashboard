@@ -12,6 +12,8 @@ function ResourceIcon({ icon, title, url }) {
       rel="noreferrer"
       className={`action-icon${disabled ? " disabled" : ""}`}
       title={title}
+      aria-label={title}
+      aria-disabled={disabled ? "true" : undefined}
       onClick={(e) => e.stopPropagation()}
     >
       <i className={`ti ${icon}`} aria-hidden="true"></i>
@@ -22,6 +24,13 @@ function ResourceIcon({ icon, title, url }) {
 function KanbanCard({ solution }) {
   const navigate = useNavigate();
   const { filled, total, percent, status } = getDocStatus(solution);
+  const goToSolution = () => navigate(`/explorer/${solution.__uid}`);
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      goToSolution();
+    }
+  };
 
   const barColor =
     status === "done" ? "var(--color-success)" : status === "in-progress" ? "var(--color-warning)" : "var(--color-danger)";
@@ -31,8 +40,8 @@ function KanbanCard({ solution }) {
       className="kanban-card"
       role="button"
       tabIndex={0}
-      onClick={() => navigate(`/explorer/${solution.__uid}`)}
-      onKeyDown={(e) => e.key === "Enter" && navigate(`/explorer/${solution.__uid}`)}
+      onClick={goToSolution}
+      onKeyDown={handleKeyDown}
     >
       <p className="kanban-card-title">{solution[FIELDS.name]}</p>
       <p className="kanban-card-meta">

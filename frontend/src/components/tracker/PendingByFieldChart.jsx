@@ -37,34 +37,39 @@ function PendingByFieldChart({ solutions }) {
     label: f.label,
     pending: solutions.filter((row) => !hasContent(row[f.key])).length,
   })).sort((a, b) => b.pending - a.pending);
+  const summary = `Bar chart of pending solutions by document type: ${data
+    .map((d) => `${d.label} ${d.pending}`)
+    .join(", ")}`;
 
   return (
     <div className="card">
       <p className="card-title">Pending by Document Type</p>
-      <ResponsiveContainer width="100%" height={data.length * 30 + 10}>
-        <BarChart data={data} layout="vertical" margin={{ top: 0, right: 32, bottom: 0, left: 0 }} barCategoryGap={12}>
-          <XAxis type="number" hide domain={[0, (max) => Math.ceil(max * 1.15) || 1]} />
-          <YAxis
-            type="category"
-            dataKey="label"
-            width={110}
-            tick={{ fontSize: 12, fill: "var(--color-text-secondary)", fontWeight: 500 }}
-            axisLine={false}
-            tickLine={false}
-          />
-          <Tooltip content={<ChartTooltip />} cursor={{ fill: "var(--color-background-secondary)" }} />
-          <Bar dataKey="pending" radius={[6, 6, 6, 6]} barSize={10}>
-            {data.map((entry) => (
-              <Cell key={entry.label} fill="var(--color-danger)" />
-            ))}
-            <LabelList
-              dataKey="pending"
-              position="right"
-              style={{ fontSize: 12, fontWeight: 600, fill: "var(--color-text-primary)" }}
+      <div role="img" aria-label={summary}>
+        <ResponsiveContainer width="100%" height={data.length * 30 + 10}>
+          <BarChart data={data} layout="vertical" margin={{ top: 0, right: 32, bottom: 0, left: 0 }} barCategoryGap={12}>
+            <XAxis type="number" hide domain={[0, (max) => Math.ceil(max * 1.15) || 1]} />
+            <YAxis
+              type="category"
+              dataKey="label"
+              width={110}
+              tick={{ fontSize: 12, fill: "var(--color-text-secondary)", fontWeight: 500 }}
+              axisLine={false}
+              tickLine={false}
             />
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+            <Tooltip content={<ChartTooltip />} cursor={{ fill: "var(--color-background-secondary)" }} />
+            <Bar dataKey="pending" radius={[6, 6, 6, 6]} barSize={10}>
+              {data.map((entry) => (
+                <Cell key={entry.label} fill="var(--color-danger)" />
+              ))}
+              <LabelList
+                dataKey="pending"
+                position="right"
+                style={{ fontSize: 12, fontWeight: 600, fill: "var(--color-text-primary)" }}
+              />
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }

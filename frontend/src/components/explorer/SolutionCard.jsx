@@ -5,14 +5,21 @@ function SolutionCard({ solution, active, onSelect }) {
   const benchmarked = isBenchmarked(solution);
   const impl = getImplementationsCount(solution);
   const handleSelect = () => onSelect(solution.__uid);
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleSelect();
+    }
+  };
 
   return (
     <div
       className={`solution-row${active ? " active" : ""}`}
       role="button"
       tabIndex={0}
+      aria-current={active ? "true" : undefined}
       onClick={handleSelect}
-      onKeyDown={(e) => e.key === "Enter" && handleSelect()}
+      onKeyDown={handleKeyDown}
     >
       <div className="solution-row-name" title={solution[FIELDS.name]}>
         {solution[FIELDS.name]}

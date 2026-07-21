@@ -4,6 +4,27 @@
   min-height: 100vh;
 }
 
+/* Hidden until keyboard-focused, so keyboard users can jump past the
+   repeated sidebar nav straight to page content. */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 8px;
+  z-index: 100;
+  background: var(--brand-600);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: var(--border-radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: 8px;
+}
+
 /* ---------- Sidebar ---------- */
 .sidebar {
   width: 232px;
@@ -297,6 +318,25 @@
 .last-synced i {
   color: var(--brand-500);
   font-size: 12px;
+}
+
+.connection-status {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-warning);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.connection-status .status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
 }
 
 /* ---------- Filter chips ---------- */

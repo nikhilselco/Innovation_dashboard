@@ -18,25 +18,27 @@ function BenchmarkStatusChart({ benchmarked, pending }) {
       <p className="card-title">Benchmark Status</p>
       <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
         <div style={{ position: "relative", width: 104, height: 104, flexShrink: 0 }}>
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={chartData}
-                dataKey="value"
-                innerRadius={34}
-                outerRadius={48}
-                startAngle={90}
-                endAngle={-270}
-                stroke="none"
-                cornerRadius={6}
-                paddingAngle={2}
-              >
-                {chartData.map((entry) => (
-                  <Cell key={entry.name} fill={entry.color} />
-                ))}
-              </Pie>
-            </PieChart>
-          </ResponsiveContainer>
+          <div aria-hidden="true" style={{ width: "100%", height: "100%" }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={chartData}
+                  dataKey="value"
+                  innerRadius={34}
+                  outerRadius={48}
+                  startAngle={90}
+                  endAngle={-270}
+                  stroke="none"
+                  cornerRadius={6}
+                  paddingAngle={2}
+                >
+                  {chartData.map((entry) => (
+                    <Cell key={entry.name} fill={entry.color} />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
           <div
             style={{
               position: "absolute",
