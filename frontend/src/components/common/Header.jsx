@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getLastUpdated } from "../../api/dashboardApi";
 import { formatDate } from "../../utils/formatDate";
 
-function Header({ onMenuClick }) {
+function Header({ onMenuClick, onMenuHover }) {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
 
@@ -19,14 +20,21 @@ function Header({ onMenuClick }) {
 
   return (
     <div className="app-header">
-      <button
-        type="button"
-        className="icon-btn mobile-menu-btn"
-        onClick={onMenuClick}
-        aria-label="Open menu"
-      >
-        <i className="ti ti-menu-2" aria-hidden="true"></i>
-      </button>
+      <div className="app-header-left">
+        <button
+          type="button"
+          className="icon-btn mobile-menu-btn"
+          onClick={onMenuClick}
+          onMouseEnter={onMenuHover}
+          aria-label="Open menu"
+        >
+          <i className="ti ti-menu-2" aria-hidden="true"></i>
+        </button>
+
+        <Link to="/" className="app-header-brand" title="Go to Overall Dashboard">
+          <img src="/selco-foundation.png" alt="SELCO Foundation" />
+        </Link>
+      </div>
 
       <div className="header-right">
         <button

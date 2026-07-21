@@ -14,13 +14,26 @@ function MainLayout() {
   const [collapsed, setCollapsed] = useState(
     () => typeof window !== "undefined" && window.innerWidth <= MOBILE_BREAKPOINT
   );
+  // Lets the sidebar temporarily expand on hover without changing the
+  // underlying `collapsed` preference - it snaps back once the cursor
+  // leaves, unlike a click which pins it open/closed.
+  const [hoverOpen, setHoverOpen] = useState(false);
+  const expanded = !collapsed || hoverOpen;
+
   const closeOnMobile = () => {
-    if (window.innerWidth <= MOBILE_BREAKPOINT) setCollapsed(true);
+    if (window.innerWidth <= MOBILE_BREAKPOINT) {
+      setCollapsed(true);
+      setHoverOpen(false);
+    }
   };
 
   return (
     <div className="app-shell">
-      <aside className={`sidebar${collapsed ? " collapsed" : ""}`}>
+      <aside
+        className={`sidebar${expanded ? "" : " collapsed"}`}
+        onMouseEnter={() => setHoverOpen(true)}
+        onMouseLeave={() => setHoverOpen(false)}
+      >
         <div className="sidebar-brand">
           <Link
             to="/"
@@ -42,7 +55,7 @@ function MainLayout() {
             title="Toggle sidebar"
           >
             <i
-              className={`ti ${collapsed ? "ti-layout-sidebar-left-expand" : "ti-layout-sidebar-left-collapse"}`}
+              className={`ti ${expanded ? "ti-layout-sidebar-left-collapse" : "ti-layout-sidebar-left-expand"}`}
               aria-hidden="true"
             ></i>
           </button>
@@ -71,7 +84,10 @@ function MainLayout() {
       {!collapsed && <div className="sidebar-backdrop" onClick={() => setCollapsed(true)}></div>}
 
       <div className="app-main">
-        <Header onMenuClick={() => setCollapsed((c) => !c)} />
+        <Header
+          onMenuClick={() => setCollapsed((c) => !c)}
+          onMenuHover={() => setHoverOpen(true)}
+        />
         <Outlet />
       </div>
     </div>

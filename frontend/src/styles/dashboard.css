@@ -195,6 +195,26 @@
   z-index: 10;
 }
 
+.app-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-header-brand {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--color-text-primary);
+}
+
+.app-header-brand img {
+  height: 22px;
+  width: auto;
+  object-fit: contain;
+}
+
 .header-right {
   display: flex;
   align-items: center;
@@ -1187,10 +1207,22 @@
     display: inline-flex;
   }
 
+  .app-header-brand {
+    display: flex;
+  }
+
   .icon-btn {
     width: 44px;
     height: 44px;
     font-size: 19px;
+  }
+
+  .filter-select-wrapper {
+    width: 100%;
+  }
+
+  .filter-select-wrapper .filter-select {
+    width: 100%;
   }
 
   .sidebar {
