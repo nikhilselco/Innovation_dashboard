@@ -59,23 +59,23 @@ function Header({ onMenuClick, onMenuHover }) {
         <button
           type="button"
           className="icon-btn"
-          onClick={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
-          aria-label="Toggle theme"
-          aria-pressed={theme === "dark"}
-          title="Toggle light/dark theme"
-        >
-          <i className={`ti ${theme === "light" ? "ti-moon" : "ti-sun"}`} aria-hidden="true"></i>
-        </button>
-
-        <button
-          type="button"
-          className="icon-btn"
           onClick={toggleFullscreen}
           aria-label="Toggle fullscreen"
           aria-pressed={isFullscreen}
           title="Toggle fullscreen"
         >
           <i className={`ti ${isFullscreen ? "ti-minimize" : "ti-maximize"}`} aria-hidden="true"></i>
+        </button>
+
+        <button
+          type="button"
+          className="icon-btn"
+          onClick={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
+          aria-label="Toggle theme"
+          aria-pressed={theme === "dark"}
+          title="Toggle light/dark theme"
+        >
+          <i className={`ti ${theme === "light" ? "ti-moon" : "ti-sun"}`} aria-hidden="true"></i>
         </button>
 
         {!connected && (
