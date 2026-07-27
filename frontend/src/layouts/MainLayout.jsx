@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Outlet, Link } from "react-router-dom";
+import { NavLink, Outlet, Link, useNavigate } from "react-router-dom";
 import Header from "../components/common/Header";
 
 const NAV_ITEMS = [
@@ -19,12 +19,23 @@ function MainLayout() {
   // leaves, unlike a click which pins it open/closed.
   const [hoverOpen, setHoverOpen] = useState(false);
   const expanded = !collapsed || hoverOpen;
+  const [globalQuery, setGlobalQuery] = useState("");
+  const navigate = useNavigate();
 
   const closeOnMobile = () => {
     if (window.innerWidth <= MOBILE_BREAKPOINT) {
       setCollapsed(true);
       setHoverOpen(false);
     }
+  };
+
+  const handleGlobalSearch = (e) => {
+    e.preventDefault();
+    const q = globalQuery.trim();
+    if (!q) return;
+    navigate(`/search?q=${encodeURIComponent(q)}`);
+    setGlobalQuery("");
+    closeOnMobile();
   };
 
   return (
@@ -64,6 +75,29 @@ function MainLayout() {
             ></i>
           </button>
         </div>
+
+        <form className="sidebar-search" role="search" onSubmit={handleGlobalSearch}>
+          <div className="search-box sidebar-search-box">
+            <i className="ti ti-search" aria-hidden="true"></i>
+            <input
+              type="text"
+              placeholder="Search everything..."
+              aria-label="Search all solutions, sectors and value chains"
+              value={globalQuery}
+              onChange={(e) => setGlobalQuery(e.target.value)}
+            />
+            {globalQuery && (
+              <button
+                type="button"
+                className="search-box-clear"
+                aria-label="Clear search"
+                onClick={() => setGlobalQuery("")}
+              >
+                <i className="ti ti-x" aria-hidden="true"></i>
+              </button>
+            )}
+          </div>
+        </form>
 
         <nav className="sidebar-nav">
           <span className="sidebar-nav-label">Menu</span>
