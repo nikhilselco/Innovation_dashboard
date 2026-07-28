@@ -201,6 +201,29 @@
   padding: 28px 32px 56px;
 }
 
+/* Lets the footer sit flush against the viewport bottom on short pages,
+   while still flowing naturally after content once a page scrolls. */
+.app-main > .dashboard-content {
+  flex: 1;
+}
+
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 32px;
+  border-top: 1px solid var(--color-border-tertiary);
+  color: var(--color-text-tertiary);
+  font-size: 12px;
+}
+
+.app-footer img {
+  height: 18px;
+  width: auto;
+  object-fit: contain;
+}
+
 /* ---------- Topbar ---------- */
 .app-header {
   display: flex;

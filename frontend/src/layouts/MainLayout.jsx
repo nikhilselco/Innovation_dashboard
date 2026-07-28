@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink, Outlet, Link, useNavigate } from "react-router-dom";
 import Header from "../components/common/Header";
+import Footer from "../components/common/Footer";
 
 const NAV_ITEMS = [
   { to: "/", label: "Overall Dashboard", icon: "ti-layout-dashboard", end: true },
@@ -127,6 +128,7 @@ function MainLayout() {
           onMenuHover={() => setHoverOpen(true)}
         />
         <Outlet />
+        <Footer />
       </div>
     </div>
   );
