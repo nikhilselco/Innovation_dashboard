@@ -1,6 +1,6 @@
 import { FIELDS, extractUrl } from "../../utils/helpers";
 
-function ResourceIcon({ icon, title, url }) {
+function ResourceIcon({ icon, label, title, url }) {
   const disabled = !url;
 
   return (
@@ -15,6 +15,7 @@ function ResourceIcon({ icon, title, url }) {
       onClick={(e) => e.stopPropagation()}
     >
       <i className={`ti ${icon}`} aria-hidden="true"></i>
+      <span>{label}</span>
     </a>
   );
 }
@@ -27,11 +28,22 @@ function SolutionResourceIcons({ solution, className = "action-icons" }) {
     <div className={className}>
       <ResourceIcon
         icon="ti-file-text"
+        label="Docs"
         title="Open Documents"
         url={extractUrl(solution[FIELDS.techSpecs]) || extractUrl(solution[FIELDS.benchmarkDoc])}
       />
-      <ResourceIcon icon="ti-player-play" title="Watch Video" url={extractUrl(solution[FIELDS.video])} />
-      <ResourceIcon icon="ti-bookmark" title="View Case Study" url={extractUrl(solution[FIELDS.caseStudy])} />
+      <ResourceIcon
+        icon="ti-player-play"
+        label="Video"
+        title="Watch Video"
+        url={extractUrl(solution[FIELDS.video])}
+      />
+      <ResourceIcon
+        icon="ti-bookmark"
+        label="Case Study"
+        title="View Case Study"
+        url={extractUrl(solution[FIELDS.caseStudy])}
+      />
     </div>
   );
 }
