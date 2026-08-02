@@ -21,6 +21,12 @@ function BenchmarkStatusChart({ benchmarked, pending }) {
           <div aria-hidden="true" style={{ width: "100%", height: "100%" }}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
+                <defs>
+                  <linearGradient id="benchmarkedGradient" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#17b884" />
+                    <stop offset="100%" stopColor="#0e8a63" />
+                  </linearGradient>
+                </defs>
                 <Pie
                   data={chartData}
                   dataKey="value"
@@ -33,7 +39,10 @@ function BenchmarkStatusChart({ benchmarked, pending }) {
                   paddingAngle={2}
                 >
                   {chartData.map((entry) => (
-                    <Cell key={entry.name} fill={entry.color} />
+                    <Cell
+                      key={entry.name}
+                      fill={entry.name === "Benchmarked" ? "url(#benchmarkedGradient)" : entry.color}
+                    />
                   ))}
                 </Pie>
               </PieChart>
