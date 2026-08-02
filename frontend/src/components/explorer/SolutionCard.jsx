@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { FIELDS, isBenchmarked, getImplementationsCount } from "../../utils/helpers";
+import SolutionResourceIcons from "../common/SolutionResourceIcons";
 
 function SolutionCard({ solution, active, onSelect }) {
   const benchmarked = isBenchmarked(solution);
@@ -32,6 +33,7 @@ function SolutionCard({ solution, active, onSelect }) {
         </span>
         {impl > 0 && <span className="solution-row-impl">{impl} impl.</span>}
       </div>
+      <SolutionResourceIcons solution={solution} className="solution-row-actions" />
     </div>
   );
 }

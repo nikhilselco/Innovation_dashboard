@@ -1,25 +1,5 @@
-import { extractUrl, isBenchmarked, VALUE_CHAIN_FIELD } from "../../utils/helpers";
-
-const VIDEO_FIELD = "Video of the solution package";
-const DOCS_FIELD = "Tech specs";
-const CASE_STUDY_FIELD =
-  "Case studies with champions and with enabling conditions";
-
-function ResourceIcon({ icon, title, url }) {
-  const disabled = !url;
-
-  return (
-    <a
-      href={disabled ? undefined : url}
-      target="_blank"
-      rel="noreferrer"
-      className={`action-icon${disabled ? " disabled" : ""}`}
-      title={title}
-    >
-      <i className={`ti ${icon}`} aria-hidden="true"></i>
-    </a>
-  );
-}
+import { isBenchmarked, VALUE_CHAIN_FIELD } from "../../utils/helpers";
+import SolutionResourceIcons from "../common/SolutionResourceIcons";
 
 function RecentSolutionsTable({ solutions }) {
   const rows = [...solutions]
@@ -84,23 +64,7 @@ function RecentSolutionsTable({ solutions }) {
                   {row["Update Year"] || "-"}
                 </td>
                 <td style={{ textAlign: "center" }}>
-                  <div className="action-icons">
-                    <ResourceIcon
-                      icon="ti-player-play"
-                      title="Watch Video"
-                      url={extractUrl(row[VIDEO_FIELD])}
-                    />
-                    <ResourceIcon
-                      icon="ti-file-text"
-                      title="Open Documents"
-                      url={extractUrl(row[DOCS_FIELD])}
-                    />
-                    <ResourceIcon
-                      icon="ti-bookmark"
-                      title="View Case Study"
-                      url={extractUrl(row[CASE_STUDY_FIELD])}
-                    />
-                  </div>
+                  <SolutionResourceIcons solution={row} />
                 </td>
               </tr>
             );

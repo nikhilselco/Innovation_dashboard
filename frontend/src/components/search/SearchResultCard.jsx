@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   FIELDS,
   isBenchmarked,
@@ -8,6 +8,7 @@ import {
   getDocStatus,
   hasContent,
 } from "../../utils/helpers";
+import SolutionResourceIcons from "../common/SolutionResourceIcons";
 
 // Wraps the first case-insensitive occurrence of `query` in a <mark>, so a
 // result card shows at a glance which field actually matched the search.
@@ -27,6 +28,7 @@ function Highlight({ text, query }) {
 }
 
 function SearchResultCard({ solution, query }) {
+  const navigate = useNavigate();
   const benchmarked = isBenchmarked(solution);
   const priority = isPriority(solution);
   const impl = getImplementationsCount(solution);
@@ -34,10 +36,22 @@ function SearchResultCard({ solution, query }) {
   const innovationType = solution[FIELDS.innovationType];
   const valueChain = solution[FIELDS.valueChain]?.trim();
 
+  const goToDetail = () =>
+    navigate(`/search/${solution.__uid}?q=${encodeURIComponent(query || "")}`);
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      goToDetail();
+    }
+  };
+
   return (
-    <Link
-      to={`/search/${solution.__uid}?q=${encodeURIComponent(query || "")}`}
+    <div
       className="search-result-card"
+      role="button"
+      tabIndex={0}
+      onClick={goToDetail}
+      onKeyDown={handleKeyDown}
     >
       <div className="search-result-card-header">
         <h3>
@@ -102,7 +116,9 @@ function SearchResultCard({ solution, query }) {
           </span>
         </div>
       </div>
-    </Link>
+
+      <SolutionResourceIcons solution={solution} className="search-result-actions" />
+    </div>
   );
 }
 

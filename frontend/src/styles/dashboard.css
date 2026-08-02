@@ -952,6 +952,12 @@
   flex-wrap: wrap;
 }
 
+.solution-row-actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+}
+
 .row-badge {
   font-size: 10px;
   padding: 2px 8px;
@@ -1780,7 +1786,16 @@ select:focus-visible,
   box-shadow: var(--shadow-xs);
   text-decoration: none;
   color: inherit;
+  cursor: pointer;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.search-result-actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border-tertiary);
 }
 
 .search-result-card:hover {

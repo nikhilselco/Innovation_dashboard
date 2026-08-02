@@ -1,25 +1,7 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { FIELDS, VALUE_CHAIN_FIELD, extractUrl, getDocStatus } from "../../utils/helpers";
-
-function ResourceIcon({ icon, title, url }) {
-  const disabled = !url;
-
-  return (
-    <a
-      href={disabled ? undefined : url}
-      target="_blank"
-      rel="noreferrer"
-      className={`action-icon${disabled ? " disabled" : ""}`}
-      title={title}
-      aria-label={title}
-      aria-disabled={disabled ? "true" : undefined}
-      onClick={(e) => e.stopPropagation()}
-    >
-      <i className={`ti ${icon}`} aria-hidden="true"></i>
-    </a>
-  );
-}
+import { FIELDS, VALUE_CHAIN_FIELD, getDocStatus } from "../../utils/helpers";
+import SolutionResourceIcons from "../common/SolutionResourceIcons";
 
 function KanbanCard({ solution }) {
   const navigate = useNavigate();
@@ -53,15 +35,7 @@ function KanbanCard({ solution }) {
       <p className="kanban-card-progress">
         {filled}/{total} docs ({percent}%)
       </p>
-      <div className="kanban-actions">
-        <ResourceIcon
-          icon="ti-file-text"
-          title="Open Documents"
-          url={extractUrl(solution[FIELDS.techSpecs]) || extractUrl(solution[FIELDS.benchmarkDoc])}
-        />
-        <ResourceIcon icon="ti-player-play" title="Watch Video" url={extractUrl(solution[FIELDS.video])} />
-        <ResourceIcon icon="ti-bookmark" title="View Case Study" url={extractUrl(solution[FIELDS.caseStudy])} />
-      </div>
+      <SolutionResourceIcons solution={solution} className="kanban-actions" />
     </div>
   );
 }
