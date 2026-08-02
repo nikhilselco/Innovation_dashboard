@@ -35,7 +35,10 @@ function SearchResultCard({ solution, query }) {
   const valueChain = solution[FIELDS.valueChain]?.trim();
 
   return (
-    <Link to={`/explorer/${solution.__uid}`} className="search-result-card">
+    <Link
+      to={`/search/${solution.__uid}?q=${encodeURIComponent(query || "")}`}
+      className="search-result-card"
+    >
       <div className="search-result-card-header">
         <h3>
           <Highlight text={solution[FIELDS.name]} query={query} />

@@ -10,6 +10,7 @@ import DashboardPage from "../pages/DashboardPage";
 const SolutionExplorerPage = lazy(() => import("../pages/SolutionExplorerPage"));
 const BenchmarkTrackerPage = lazy(() => import("../pages/BenchmarkTrackerPage"));
 const SearchResultsPage = lazy(() => import("../pages/SearchResultsPage"));
+const SearchSolutionPage = lazy(() => import("../pages/SearchSolutionPage"));
 
 function AppRoutes() {
   return (
@@ -21,6 +22,7 @@ function AppRoutes() {
           <Route path="/explorer/:id" element={<SolutionExplorerPage />} />
           <Route path="/tracker" element={<BenchmarkTrackerPage />} />
           <Route path="/search" element={<SearchResultsPage />} />
+          <Route path="/search/:id" element={<SearchSolutionPage />} />
         </Route>
       </Routes>
     </Suspense>

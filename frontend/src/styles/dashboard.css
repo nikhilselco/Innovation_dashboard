@@ -624,6 +624,10 @@
   color: var(--brand-700);
 }
 
+.search-back-link {
+  margin-bottom: 10px;
+}
+
 /* ---------- States ---------- */
 .dashboard-status-text {
   font-size: 13px;
