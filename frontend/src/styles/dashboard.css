@@ -199,6 +199,54 @@
   width: 100%;
   margin: 0 auto;
   padding: 28px 32px 56px;
+  animation: page-fade-in 0.25s ease;
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slimmer, brand-tinted scrollbars wherever content scrolls (Chrome/Edge/
+   Safari - Firefox falls back to its own via scrollbar-width/-color). */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-secondary) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-secondary);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Lets the footer sit flush against the viewport bottom on short pages,
@@ -279,6 +327,11 @@
   justify-content: center;
   font-size: 17px;
   flex-shrink: 0;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.icon-btn:active {
+  transform: scale(0.93);
 }
 
 .icon-btn:hover {
@@ -399,6 +452,10 @@
   border-color: var(--color-border-secondary);
   color: var(--color-text-primary);
   box-shadow: var(--shadow-xs);
+}
+
+.chip:active {
+  transform: scale(0.96);
 }
 
 .chip.active {
@@ -610,6 +667,10 @@
   border-color: var(--brand-100);
 }
 
+.action-icon:active {
+  transform: scale(0.93);
+}
+
 .action-icon.disabled {
   opacity: 0.35;
   cursor: not-allowed;
@@ -705,10 +766,15 @@
   background: var(--brand-solid-bg);
   border-color: transparent;
   color: white;
+  transition: background 0.15s ease, transform 0.1s ease;
 }
 
 .retry-btn:hover {
   background: var(--brand-solid-hover);
+}
+
+.retry-btn:active {
+  transform: scale(0.97);
 }
 
 .export-btn {
@@ -719,6 +785,11 @@
   border-color: transparent;
   color: white;
   flex-shrink: 0;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.export-btn:active {
+  transform: scale(0.97);
 }
 
 .export-btn:hover {
@@ -892,6 +963,10 @@
   color: var(--color-text-primary);
 }
 
+.chip-sm:active {
+  transform: scale(0.95);
+}
+
 .chip-sm.active {
   border-color: var(--brand-100);
   background: var(--brand-50);
@@ -923,12 +998,16 @@
   padding: 10px 12px;
   border-radius: var(--border-radius-md);
   cursor: pointer;
-  transition: background 0.12s ease;
+  transition: background 0.12s ease, transform 0.1s ease;
   margin-bottom: 2px;
 }
 
 .solution-row:hover {
   background: var(--color-background-secondary);
+}
+
+.solution-row:active {
+  transform: scale(0.985);
 }
 
 .solution-row.active {
@@ -1137,7 +1216,7 @@
   background: transparent;
   margin-bottom: -1px;
   white-space: nowrap;
-  transition: color 0.15s ease;
+  transition: color 0.15s ease, border-color 0.15s ease;
   font-weight: 500;
 }
 
@@ -1153,6 +1232,21 @@
 
 .tab-body {
   padding: 22px;
+}
+
+.tab-fade {
+  animation: tab-fade-in 0.2s ease;
+}
+
+@keyframes tab-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .param-grid {
@@ -1420,7 +1514,9 @@ button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 select:focus-visible,
-.solution-row:focus-visible {
+.solution-row:focus-visible,
+.search-result-card:focus-visible,
+.kanban-card:focus-visible {
   outline: 2px solid var(--brand-500);
   outline-offset: 2px;
 }
@@ -1499,12 +1595,17 @@ select:focus-visible,
   margin-bottom: 6px;
   font-size: 11px;
   cursor: pointer;
-  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
 
 .kanban-card:hover {
   box-shadow: var(--shadow-sm);
   border-color: var(--color-border-secondary);
+  transform: translateY(-1px);
+}
+
+.kanban-card:active {
+  transform: translateY(0) scale(0.985);
 }
 
 .kanban-card-title {
@@ -1796,7 +1897,7 @@ select:focus-visible,
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 }
 
 .search-result-actions {
@@ -1811,6 +1912,11 @@ select:focus-visible,
 .search-result-card:hover {
   border-color: var(--color-border-secondary);
   box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.search-result-card:active {
+  transform: translateY(0) scale(0.99);
 }
 
 .search-result-card-header {

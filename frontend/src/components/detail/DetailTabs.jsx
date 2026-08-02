@@ -217,13 +217,15 @@ function DetailTabs({ solution, allSolutions }) {
       </div>
 
       <div className="tab-body">
-        {activeTab === "overview" && <OverviewTab solution={solution} />}
-        {activeTab === "techspecs" && <TechSpecsTab solution={solution} />}
-        {activeTab === "solar" && <SolarTab solution={solution} />}
-        {activeTab === "om" && <OmTab solution={solution} />}
-        {activeTab === "documentation" && <DocumentationPanel solution={solution} />}
-        {activeTab === "compare" && <CompareTab solution={solution} allSolutions={allSolutions} />}
-        {activeTab === "casestudy" && <CaseStudyTab solution={solution} />}
+        <div key={activeTab} className="tab-fade">
+          {activeTab === "overview" && <OverviewTab solution={solution} />}
+          {activeTab === "techspecs" && <TechSpecsTab solution={solution} />}
+          {activeTab === "solar" && <SolarTab solution={solution} />}
+          {activeTab === "om" && <OmTab solution={solution} />}
+          {activeTab === "documentation" && <DocumentationPanel solution={solution} />}
+          {activeTab === "compare" && <CompareTab solution={solution} allSolutions={allSolutions} />}
+          {activeTab === "casestudy" && <CaseStudyTab solution={solution} />}
+        </div>
       </div>
     </div>
   );
