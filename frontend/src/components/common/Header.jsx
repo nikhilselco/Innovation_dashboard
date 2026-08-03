@@ -2,13 +2,17 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getLastUpdated } from "../../api/dashboardApi";
 import { subscribeToConnectionStatus } from "../../api/realtime";
-import { formatDate } from "../../utils/formatDate";
+import { formatDate, formatRelativeTime } from "../../utils/formatDate";
 
 function Header({ onMenuClick, onMenuHover }) {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
   const [connected, setConnected] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  // Forces the "Synced X ago" label to re-render periodically so it stays
+  // accurate without needing a page reload - the value itself isn't stored,
+  // it just triggers formatRelativeTime() to recompute on each tick.
+  const [, setTick] = useState(0);
 
   useEffect(() => {
     getLastUpdated()
@@ -27,6 +31,11 @@ function Header({ onMenuClick, onMenuHover }) {
     const handleFullscreenChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => setTick((t) => t + 1), 60000);
+    return () => clearInterval(interval);
   }, []);
 
   const toggleFullscreen = () => {
@@ -90,9 +99,9 @@ function Header({ onMenuClick, onMenuHover }) {
           </span>
         )}
 
-        <span className="last-synced">
+        <span className="last-synced" title={`Last synced ${formatDate(lastUpdated)}`}>
           <i className="ti ti-refresh" aria-hidden="true"></i>
-          Synced {formatDate(lastUpdated)}
+          Synced {formatRelativeTime(lastUpdated)}
         </span>
       </div>
     </div>
