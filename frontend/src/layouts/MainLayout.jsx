@@ -100,24 +100,27 @@ function MainLayout() {
           </div>
         </form>
 
-        <nav className="sidebar-nav">
-          <span className="sidebar-nav-label">Menu</span>
-          {NAV_ITEMS.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.end}
-              aria-label={item.label}
-              onClick={closeOnMobile}
-              className={({ isActive }) =>
-                `sidebar-link${isActive ? " active" : ""}`
-              }
-            >
-              <i className={`ti ${item.icon}`} aria-hidden="true"></i>
-              <span className="link-label">{item.label}</span>
-            </NavLink>
-          ))}
-        </nav>
+        <div className="sidebar-nav-wrap">
+          <nav className="sidebar-nav">
+            <span className="sidebar-nav-label">Menu</span>
+            {NAV_ITEMS.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.end}
+                aria-label={item.label}
+                onClick={closeOnMobile}
+                className={({ isActive }) =>
+                  `sidebar-link${isActive ? " active" : ""}`
+                }
+              >
+                <i className={`ti ${item.icon}`} aria-hidden="true"></i>
+                <span className="link-label">{item.label}</span>
+              </NavLink>
+            ))}
+          </nav>
+          <Footer />
+        </div>
       </aside>
 
       {!collapsed && <div className="sidebar-backdrop" onClick={() => setCollapsed(true)}></div>}
@@ -128,7 +131,6 @@ function MainLayout() {
           onMenuHover={() => setHoverOpen(true)}
         />
         <Outlet />
-        <Footer />
       </div>
     </div>
   );
