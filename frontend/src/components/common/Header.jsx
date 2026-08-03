@@ -101,7 +101,7 @@ function Header({ onMenuClick, onMenuHover }) {
 
         <span className="last-synced" title={`Last synced ${formatDate(lastUpdated)}`}>
           <i className="ti ti-refresh" aria-hidden="true"></i>
-          Synced {formatRelativeTime(lastUpdated)}
+          Updated {formatRelativeTime(lastUpdated)}
         </span>
       </div>
     </div>
