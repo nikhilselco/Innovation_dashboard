@@ -96,7 +96,7 @@ function SolutionExplorerPage() {
         <>
           <div className="kpi-grid">
             {[0, 1, 2, 3].map((i) => (
-              <div className="kpi skeleton" style={{ height: 90 }} key={i}></div>
+              <div className="kpi skeleton" style={{ height: 90, animationDelay: `${i * 60}ms` }} key={i}></div>
             ))}
           </div>
 
@@ -108,15 +108,22 @@ function SolutionExplorerPage() {
                 <div className="skeleton" style={{ width: "100%", height: 34, marginBottom: 10 }}></div>
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                   {[60, 80, 70, 90].map((w, i) => (
-                    <div className="skeleton" style={{ width: w, height: 22, borderRadius: 999 }} key={i}></div>
+                    <div
+                      className="skeleton"
+                      style={{ width: w, height: 22, borderRadius: 999, animationDelay: `${i * 50}ms` }}
+                      key={i}
+                    ></div>
                   ))}
                 </div>
               </div>
               <div className="solution-list">
                 {[0, 1, 2, 3, 4, 5].map((i) => (
                   <div key={i} style={{ padding: "10px 12px" }}>
-                    <div className="skeleton" style={{ width: "80%", height: 14, marginBottom: 8 }}></div>
-                    <div className="skeleton" style={{ width: "50%", height: 11 }}></div>
+                    <div
+                      className="skeleton"
+                      style={{ width: "80%", height: 14, marginBottom: 8, animationDelay: `${i * 50}ms` }}
+                    ></div>
+                    <div className="skeleton" style={{ width: "50%", height: 11, animationDelay: `${i * 50 + 25}ms` }}></div>
                   </div>
                 ))}
               </div>
@@ -130,7 +137,11 @@ function SolutionExplorerPage() {
                     <div className="skeleton" style={{ width: 160, height: 12, marginBottom: 12 }}></div>
                     <div style={{ display: "flex", gap: 6 }}>
                       {[70, 90, 80].map((w, i) => (
-                        <div className="skeleton" style={{ width: w, height: 20, borderRadius: 999 }} key={i}></div>
+                        <div
+                          className="skeleton"
+                          style={{ width: w, height: 20, borderRadius: 999, animationDelay: `${i * 50}ms` }}
+                          key={i}
+                        ></div>
                       ))}
                     </div>
                   </div>
@@ -138,7 +149,11 @@ function SolutionExplorerPage() {
                 </div>
                 <div style={{ display: "flex", gap: 20, padding: "0 22px", borderBottom: "1px solid var(--color-border-tertiary)" }}>
                   {[0, 1, 2, 3, 4].map((i) => (
-                    <div className="skeleton" style={{ width: 70, height: 14, margin: "14px 0" }} key={i}></div>
+                    <div
+                      className="skeleton"
+                      style={{ width: 70, height: 14, margin: "14px 0", animationDelay: `${i * 40}ms` }}
+                      key={i}
+                    ></div>
                   ))}
                 </div>
                 <div className="tab-body">

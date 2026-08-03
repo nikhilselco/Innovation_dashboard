@@ -107,7 +107,7 @@ function MainLayout() {
               key={item.to}
               to={item.to}
               end={item.end}
-              title={item.label}
+              aria-label={item.label}
               onClick={closeOnMobile}
               className={({ isActive }) =>
                 `sidebar-link${isActive ? " active" : ""}`
