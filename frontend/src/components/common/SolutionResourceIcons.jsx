@@ -2,6 +2,7 @@ import { FIELDS, extractUrl } from "../../utils/helpers";
 
 function ResourceIcon({ icon, label, title, url }) {
   const disabled = !url;
+  const statusTitle = disabled ? `${title} - not available` : title;
 
   return (
     <a
@@ -9,12 +10,13 @@ function ResourceIcon({ icon, label, title, url }) {
       target="_blank"
       rel="noreferrer"
       className={`action-icon${disabled ? " disabled" : ""}`}
-      title={title}
-      aria-label={title}
+      title={statusTitle}
+      aria-label={statusTitle}
       aria-disabled={disabled ? "true" : undefined}
       onClick={(e) => e.stopPropagation()}
     >
-      <i className={`ti ${icon}`} aria-hidden="true"></i>
+      <i className={`ti ${icon} action-icon-glyph`} aria-hidden="true"></i>
+      {disabled && <i className="ti ti-x action-icon-glyph-disabled" aria-hidden="true"></i>}
       <span>{label}</span>
     </a>
   );

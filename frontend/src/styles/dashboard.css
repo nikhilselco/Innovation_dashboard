@@ -747,9 +747,28 @@
 }
 
 .action-icon.disabled {
-  opacity: 0.35;
+  opacity: 0.55;
   cursor: not-allowed;
-  pointer-events: none;
+}
+
+.action-icon.disabled:hover {
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border-tertiary);
+}
+
+.action-icon-glyph-disabled {
+  display: none;
+}
+
+.action-icon.disabled:hover .action-icon-glyph,
+.action-icon.disabled:focus-visible .action-icon-glyph {
+  display: none;
+}
+
+.action-icon.disabled:hover .action-icon-glyph-disabled,
+.action-icon.disabled:focus-visible .action-icon-glyph-disabled {
+  display: inline-block;
 }
 
 .view-all-link {
