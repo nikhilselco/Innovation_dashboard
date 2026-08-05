@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useLongList } from "../hooks/useLongList";
 import SearchResultCard from "../components/search/SearchResultCard";
@@ -18,10 +18,16 @@ const SEARCHABLE_FIELDS = [
   FIELDS.innovationType,
 ];
 
+// Broad queries (e.g. a sector name) can match a large slice of the dataset -
+// render results in batches instead of all at once.
+const PAGE_SIZE = 20;
+
 function SearchResultsPage() {
   const { solutions, loading, error, retry } = useLongList();
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
+  const trimmedQuery = query.trim();
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const handleQueryChange = (value) => {
     setSearchParams(value.trim() ? { q: value } : {}, { replace: true });
@@ -29,17 +35,26 @@ function SearchResultsPage() {
 
   const results = useMemo(() => {
     if (!solutions) return [];
-    const q = query.trim().toLowerCase();
+    const q = trimmedQuery.toLowerCase();
     if (!q) return [];
     return solutions.filter((row) =>
       SEARCHABLE_FIELDS.some((field) => (row[field] || "").toLowerCase().includes(q))
     );
-  }, [solutions, query]);
+  }, [solutions, trimmedQuery]);
+
+  // Every new search starts back at the first batch of results - reset
+  // during render (not an effect) to avoid an extra render pass.
+  const [prevQuery, setPrevQuery] = useState(trimmedQuery);
+  if (trimmedQuery !== prevQuery) {
+    setPrevQuery(trimmedQuery);
+    setVisibleCount(PAGE_SIZE);
+  }
 
   if (loading) return <Loading />;
   if (error) return <ErrorMessage message={error} onRetry={retry} />;
 
-  const trimmedQuery = query.trim();
+  const visibleResults = results.slice(0, visibleCount);
+  const hasMore = visibleCount < results.length;
 
   return (
     <main className="dashboard-content" id="main-content" tabIndex={-1}>
@@ -90,11 +105,23 @@ function SearchResultsPage() {
               or name.
             </p>
           ) : (
-            <div className="search-results-list">
-              {results.map((row) => (
-                <SearchResultCard key={row.__uid} solution={row} query={trimmedQuery} />
-              ))}
-            </div>
+            <>
+              <div className="search-results-list">
+                {visibleResults.map((row) => (
+                  <SearchResultCard key={row.__uid} solution={row} query={trimmedQuery} />
+                ))}
+              </div>
+
+              {hasMore && (
+                <button
+                  type="button"
+                  className="load-more-btn"
+                  onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+                >
+                  Load more ({results.length - visibleCount} remaining)
+                </button>
+              )}
+            </>
           )}
         </>
       )}

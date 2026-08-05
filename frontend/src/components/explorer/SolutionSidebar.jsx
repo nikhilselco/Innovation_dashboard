@@ -1,3 +1,4 @@
+import { useState } from "react";
 import SolutionCard from "./SolutionCard";
 
 const STATUS_OPTIONS = [
@@ -5,6 +6,10 @@ const STATUS_OPTIONS = [
   { value: "benchmarked", label: "Benchmarked" },
   { value: "pending", label: "Pending" },
 ];
+
+// Browsing with no filters applied can mean up to the full dataset - render
+// the list in batches instead of all at once.
+const PAGE_SIZE = 20;
 
 function SolutionSidebar({
   sectors,
@@ -22,6 +27,19 @@ function SolutionSidebar({
   selectedId,
   onSelectSolution,
 }) {
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
+  // Any change to the filtered/sorted result set starts back at the first
+  // batch - reset during render (not an effect) to avoid an extra render pass.
+  const [prevItems, setPrevItems] = useState(items);
+  if (items !== prevItems) {
+    setPrevItems(items);
+    setVisibleCount(PAGE_SIZE);
+  }
+
+  const visibleItems = items.slice(0, visibleCount);
+  const hasMore = visibleCount < items.length;
+
   return (
     <aside className="browse-panel">
       <div className="browse-panel-filters">
@@ -97,14 +115,26 @@ function SolutionSidebar({
         {items.length === 0 ? (
           <p className="solution-list-empty" role="status">No solutions match your filters.</p>
         ) : (
-          items.map((row) => (
-            <SolutionCard
-              key={row.__uid}
-              solution={row}
-              active={String(row.__uid) === String(selectedId)}
-              onSelect={onSelectSolution}
-            />
-          ))
+          <>
+            {visibleItems.map((row) => (
+              <SolutionCard
+                key={row.__uid}
+                solution={row}
+                active={String(row.__uid) === String(selectedId)}
+                onSelect={onSelectSolution}
+              />
+            ))}
+
+            {hasMore && (
+              <button
+                type="button"
+                className="load-more-btn"
+                onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+              >
+                Load more ({items.length - visibleCount} remaining)
+              </button>
+            )}
+          </>
         )}
       </div>
     </aside>
