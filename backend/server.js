@@ -1,5 +1,6 @@
 require("dotenv").config();
 const http = require("http");
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const compression = require("compression");
@@ -9,7 +10,6 @@ const { initSocket } = require("./src/realtime/socket.service");
 const app = express();
 
 const ALLOWED_ORIGINS = [
-  "https://dashboard-benchmarking.onrender.com",
   "http://localhost:5173",
 ];
 
@@ -21,8 +21,12 @@ app.use(
 );
 app.use(dashboardRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Backend is running...");
+app.use(express.static(path.join(__dirname, "public")));
+
+// SPA fallback: any non-API GET request (e.g. /explorer/5, a client-side
+// route) gets index.html so React Router can take over on the client.
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 app.use((req, res) => {

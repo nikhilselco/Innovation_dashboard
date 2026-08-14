@@ -76,6 +76,6 @@ Runs on `http://localhost:5173` by default.
 
 ## Deployment
 
-Both frontend and backend are deployed on Render. The backend needs to run as an always-on service (not serverless), since it keeps data in memory and polls Excel in the background. Free tier services on Render sleep after 15 minutes of no traffic, so a keep-warm ping (UptimeRobot or similar) is recommended to avoid slow first loads.
+Hosted on AWS EC2. The backend needs to run as an always-on service (not serverless), since it keeps data in memory and polls Excel in the background - it runs under PM2 so it restarts on crash and on server reboot. nginx serves the built frontend and reverse-proxies `/api` and `/socket.io` requests to the backend.
 
 CORS on the backend is restricted to the deployed frontend URL and localhost, so update `ALLOWED_ORIGINS` in `backend/server.js` if the frontend URL changes.
