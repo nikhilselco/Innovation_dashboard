@@ -26,22 +26,22 @@ function withCache(key, fetcher) {
 }
 
 export const getSummary = withCache("summary", async () => {
-  const res = await api.get("/api/dashboard/summary");
+  const res = await api.get("/dashboard/summary");
   return res.data;
 });
 
 export const getSectors = withCache("sectors", async () => {
-  const res = await api.get("/api/dashboard/sectors");
+  const res = await api.get("/dashboard/sectors");
   return res.data;
 });
 
 export const getBenchmarkStatus = withCache("benchmark-status", async () => {
-  const res = await api.get("/api/dashboard/benchmark-status");
+  const res = await api.get("/dashboard/benchmark-status");
   return res.data;
 });
 
 export const getLongList = withCache("longlist", async () => {
-  const res = await api.get("/api/dashboard/longlist");
+  const res = await api.get("/dashboard/longlist");
   // The source Excel sheet has duplicate "Sr No." values for a handful of
   // rows, so it can't be trusted as a unique key/id. Stamp a real one here,
   // once, so every consumer (Explorer routing, list keys, search) is safe.
@@ -49,6 +49,6 @@ export const getLongList = withCache("longlist", async () => {
 });
 
 export const getLastUpdated = withCache("last-updated", async () => {
-  const res = await api.get("/api/dashboard/last-updated");
+  const res = await api.get("/dashboard/last-updated");
   return res.data;
 });
