@@ -21,12 +21,12 @@ app.use(
 );
 app.use(dashboardRoutes);
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "dist")));
 
 // SPA fallback: any non-API GET request (e.g. /explorer/5, a client-side
 // route) gets index.html so React Router can take over on the client.
 app.get(/^(?!\/api).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 app.use((req, res) => {
