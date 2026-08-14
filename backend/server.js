@@ -11,6 +11,7 @@ const app = express();
 
 const ALLOWED_ORIGINS = [
   "http://localhost:5173",
+  "http://65.1.91.55",
 ];
 
 app.use(compression());
