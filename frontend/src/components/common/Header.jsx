@@ -60,7 +60,7 @@ function Header({ onMenuClick, onMenuHover }) {
         </button>
 
         <Link to="/" className="app-header-brand" title="Go to Overall Dashboard">
-          <img src="/selco-foundation.png" alt="SELCO Foundation" />
+          <img src={`${import.meta.env.BASE_URL}selco-foundation.png`} alt="SELCO Foundation" />
         </Link>
       </div>
 

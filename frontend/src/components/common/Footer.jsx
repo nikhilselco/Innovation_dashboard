@@ -3,7 +3,7 @@ function Footer() {
 
   return (
     <footer className="sidebar-footer">
-      <img src="/selco-foundation.png" alt="SELCO Foundation" />
+      <img src={`${import.meta.env.BASE_URL}selco-foundation.png`} alt="SELCO Foundation" />
       <span>
         © {year} SELCO Foundation
         <br />

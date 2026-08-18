@@ -57,7 +57,7 @@ function MainLayout() {
             title="Go to Overall Dashboard"
             onClick={closeOnMobile}
           >
-            <img src="/selco-foundation.png" alt="SELCO Foundation" />
+            <img src={`${import.meta.env.BASE_URL}selco-foundation.png`} alt="SELCO Foundation" />
             <div className="sidebar-brand-text">
               <strong>SELCO</strong>
               <span>Innovation Hub</span>
