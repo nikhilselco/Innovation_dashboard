@@ -4,7 +4,7 @@ let socket = null;
 
 function getSocket() {
   if (!socket) {
-    socket = io("/", {
+    socket = io("/innovation", {
       transports: ["websocket"],
     });
   }
