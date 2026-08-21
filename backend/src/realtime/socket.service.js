@@ -4,8 +4,9 @@ let io = null;
 
 function initSocket(server, allowedOrigins) {
   io = new Server(server, {
-    cors: { origin: allowedOrigins },
-  });
+  path: "/innovation/socket.io",
+  cors: { origin: allowedOrigins },
+});
 
   io.on("connection", (socket) => {
     console.log(`[socket] client connected: ${socket.id}`);
