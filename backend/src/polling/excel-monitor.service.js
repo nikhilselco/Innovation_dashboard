@@ -15,7 +15,7 @@ async function refreshCache() {
     }
 
     const { longList, valueChain, calendar } = await getAllDashboardData();
-    setCache({ longList, valueChain, calendar });
+    setCache({ longList, valueChain, calendar, lastUpdated: lastModified });
     lastSeenModified = lastModified;
     emitDataUpdated({ lastUpdated: getCache().lastUpdated });
     console.log(
