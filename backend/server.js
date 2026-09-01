@@ -9,6 +9,13 @@ const { startExcelMonitor } = require("./src/polling/excel-monitor.service");
 const { initSocket } = require("./src/realtime/socket.service");
 const app = express();
 
+// Express auto-replies with an empty 304 whenever a request's If-None-Match
+// matches the freshly-computed ETag - independent of Cache-Control headers.
+// That's exactly what was breaking callers expecting a JSON body. This app's
+// static assets are already content-hashed (new filename per deploy), so
+// they don't need ETag-based revalidation either.
+app.disable("etag");
+
 const ALLOWED_ORIGINS = [
   "http://localhost:5173",
   "http://65.1.91.55",
