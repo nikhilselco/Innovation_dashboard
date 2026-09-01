@@ -12,12 +12,19 @@ function groupCount(rows, key) {
   return Object.entries(counts).map(([name, count]) => ({ name, count }));
 }
 
+// Accepts any real-world typo of "yes" (Y, Yeah, Yess, "Yes, ppt to be
+// completed", ...) instead of requiring an exact match - this column is
+// manually maintained in Excel by different people over time. Mirrors the
+// frontend's isYes() in frontend/src/utils/helpers.js - keep both in sync.
+function isYes(value) {
+  return typeof value === "string" && value.trim().toLowerCase().startsWith("y");
+}
+
 function countBenchmarkStatus(longList) {
   let benchmarked = 0;
   let pending = 0;
   longList.forEach((row) => {
-    const value = row[BENCHMARK_COLUMN];
-    if (typeof value === "string" && value.trim().toLowerCase() === "yes") {
+    if (isYes(row[BENCHMARK_COLUMN])) {
       benchmarked++;
     } else {
       pending++;
