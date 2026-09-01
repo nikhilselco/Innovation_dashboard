@@ -51,14 +51,20 @@ export const FIELDS = {
 // Kept as a named alias since several components import it directly.
 export const VALUE_CHAIN_FIELD = FIELDS.valueChain;
 
+// Accepts any real-world typo of "yes" (Y, Yeah, Yess, Yes., ...) instead of
+// requiring an exact match - these columns are manually maintained in Excel
+// by different people over time, so exact-match was silently miscounting
+// typos as "no".
+function isYes(value) {
+  return typeof value === "string" && value.trim().toLowerCase().startsWith("y");
+}
+
 export function isBenchmarked(row) {
-  const value = row[FIELDS.benchmarked];
-  return typeof value === "string" && value.trim().toLowerCase() === "yes";
+  return isYes(row[FIELDS.benchmarked]);
 }
 
 export function isPriority(row) {
-  const value = row[FIELDS.priority];
-  return typeof value === "string" && value.trim().toLowerCase() === "yes";
+  return isYes(row[FIELDS.priority]);
 }
 
 // A few sector values in the source Excel are variants of the same real

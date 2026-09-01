@@ -4,8 +4,7 @@ let socket = null;
 
 function getSocket() {
   if (!socket) {
-    socket = io("/", {
-      path: "/innovation/socket.io",
+    socket = io(import.meta.env.VITE_API_BASE_URL, {
       transports: ["websocket"],
     });
   }

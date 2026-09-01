@@ -12,6 +12,7 @@ const app = express();
 const ALLOWED_ORIGINS = [
   "http://localhost:5173",
   "http://65.1.91.55",
+  "https://innovation.selcofoundation.org",
 ];
 
 app.use(compression());
