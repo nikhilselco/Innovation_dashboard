@@ -21,6 +21,13 @@ app.use(
     origin: ALLOWED_ORIGINS,
   })
 );
+// Dashboard data should always be fetched fresh - without this, browsers can
+// send a conditional revalidation request and get back an empty 304, which
+// breaks callers expecting a JSON body (e.g. longlist's .map()).
+app.use("/api", (req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+});
 app.use(dashboardRoutes);
 
 app.use(express.static(path.join(__dirname, "dist")));
