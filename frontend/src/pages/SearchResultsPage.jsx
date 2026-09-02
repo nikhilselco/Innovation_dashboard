@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useLongList } from "../hooks/useLongList";
+import { useCalendarLookup } from "../hooks/useCalendarLookup";
 import SearchResultCard from "../components/search/SearchResultCard";
 import Loading from "../components/common/Loading";
 import ErrorMessage from "../components/common/ErrorMessage";
@@ -24,6 +25,7 @@ const PAGE_SIZE = 20;
 
 function SearchResultsPage() {
   const { solutions, loading, error, retry } = useLongList();
+  const calendarLookup = useCalendarLookup();
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
   const trimmedQuery = query.trim();
@@ -108,7 +110,12 @@ function SearchResultsPage() {
             <>
               <div className="search-results-list">
                 {visibleResults.map((row) => (
-                  <SearchResultCard key={row.__uid} solution={row} query={trimmedQuery} />
+                  <SearchResultCard
+                    key={row.__uid}
+                    solution={row}
+                    query={trimmedQuery}
+                    calendarLookup={calendarLookup}
+                  />
                 ))}
               </div>
 

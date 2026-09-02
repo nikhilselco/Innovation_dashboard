@@ -52,3 +52,8 @@ export const getLastUpdated = withCache("last-updated", async () => {
   const res = await api.get("/api/dashboard/last-updated");
   return res.data;
 });
+
+export const getCalendar = withCache("calendar", async () => {
+  const res = await api.get("/api/dashboard/calendar");
+  return res.data;
+});

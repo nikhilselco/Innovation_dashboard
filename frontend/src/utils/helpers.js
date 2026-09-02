@@ -111,3 +111,92 @@ export function getDocStatus(row) {
 
   return { filled, total, percent: Math.round((filled / total) * 100), status };
 }
+
+// ---------- Expected completion date (Calendar_benchmarking solutions sheet) ----------
+
+const CALENDAR_NAME_FIELD = "Solution Name";
+const CALENDAR_DATE_FIELD = "Completion due date";
+
+function normalizeSolutionName(name) {
+  return (name || "")
+    .toString()
+    .replace(new RegExp("[\\u200B-\\u200D\\uFEFF]", "g"), "") // zero-width chars present in some Excel cells
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+}
+
+// The Calendar sheet's "Solution Name" doesn't always match the long list's
+// "Solution Package Name" exactly. Only pairs a human has manually confirmed
+// refer to the same real solution are listed here (keyed by normalized
+// Calendar name -> normalized long list name) - an unconfirmed guess would
+// risk showing the wrong due date against the wrong solution, so anything
+// not listed here is left unlinked rather than fuzzy-matched.
+const CALENDAR_NAME_ALIASES = {
+  "bamboo knot removing machine": "bamboo external knot removing machine",
+  "bamboo splitter machine": "bamboo radial splitter machine",
+  "weeder - dry land weeders": "dry land weeders",
+  "paper plate making ( tbd)": "paper plate making",
+  "bamboo round stick making machine": "bamboo round stitck making machine",
+  "egg incubator new": "egg incubator",
+  "power hammer": "blacksmith-power hammer",
+  "chilli pounding": "chilli pounding machine",
+  "camphor making": "camphor tablet making",
+  "bamboo squre stick macking machine/broom stick making machine":
+    "bamboo square stick machine/ broom making machine",
+  "bamboo cross cutting machine": "bamboo cross cutter machine",
+  "bamboo thin sliver machine": "bamboo thin slivering machine",
+  "bamboo slicer machine": "bamboo heavy duty slicer machine",
+  "double row paddy weeder": "paddy weeders - double row",
+};
+
+// The sheet mixes real Excel dates (parsed upstream to "YYYY-MM-DD") with
+// plain typed text ("DD-MM-YYYY"), and a few cells are blank/broken and
+// come through as an epoch date - normalize all of that into one clean,
+// human-readable format, or null if there's nothing usable.
+function parseCalendarDate(raw) {
+  if (typeof raw !== "string") return null;
+  const trimmed = raw.trim();
+  if (!trimmed || trimmed.startsWith("1970-")) return null;
+
+  let date;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+    date = new Date(`${trimmed}T00:00:00Z`);
+  } else if (/^\d{2}-\d{2}-\d{4}$/.test(trimmed)) {
+    const [d, m, y] = trimmed.split("-");
+    date = new Date(Date.UTC(Number(y), Number(m) - 1, Number(d)));
+  } else {
+    return trimmed;
+  }
+
+  if (Number.isNaN(date.getTime())) return trimmed;
+  return date.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+// Builds a normalized-solution-name -> formatted-due-date lookup from the
+// raw Calendar sheet rows, so a pending long-list solution can be matched
+// to its expected completion date.
+export function buildExpectedDateLookup(calendarRows) {
+  const lookup = new Map();
+  (calendarRows || []).forEach((row) => {
+    const calName = normalizeSolutionName(row[CALENDAR_NAME_FIELD]);
+    if (!calName) return;
+    const formatted = parseCalendarDate(row[CALENDAR_DATE_FIELD]);
+    if (!formatted) return;
+
+    lookup.set(calName, formatted);
+    const alias = CALENDAR_NAME_ALIASES[calName];
+    if (alias) lookup.set(alias, formatted);
+  });
+  return lookup;
+}
+
+export function getExpectedDate(row, lookup) {
+  if (!lookup) return null;
+  return lookup.get(normalizeSolutionName(row[FIELDS.name])) || null;
+}

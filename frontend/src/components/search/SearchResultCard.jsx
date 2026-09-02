@@ -7,6 +7,7 @@ import {
   getImplementationsCount,
   getDocStatus,
   hasContent,
+  getExpectedDate,
 } from "../../utils/helpers";
 import SolutionResourceIcons from "../common/SolutionResourceIcons";
 
@@ -27,7 +28,7 @@ function Highlight({ text, query }) {
   );
 }
 
-function SearchResultCard({ solution, query }) {
+function SearchResultCard({ solution, query, calendarLookup }) {
   const navigate = useNavigate();
   const benchmarked = isBenchmarked(solution);
   const priority = isPriority(solution);
@@ -35,6 +36,7 @@ function SearchResultCard({ solution, query }) {
   const docStatus = getDocStatus(solution);
   const innovationType = solution[FIELDS.innovationType];
   const valueChain = solution[FIELDS.valueChain]?.trim();
+  const expectedDate = !benchmarked ? getExpectedDate(solution, calendarLookup) : null;
 
   const goToDetail = () =>
     navigate(`/search/${solution.__uid}?q=${encodeURIComponent(query || "")}`);
@@ -103,6 +105,12 @@ function SearchResultCard({ solution, query }) {
             <span>
               <Highlight text={innovationType.split("\n")[0]} query={query} />
             </span>
+          </div>
+        )}
+        {expectedDate && (
+          <div className="search-result-meta-item">
+            <span className="search-result-meta-label">Expected</span>
+            <span>{expectedDate}</span>
           </div>
         )}
         <div className="search-result-meta-item">
