@@ -109,8 +109,12 @@ function SearchResultCard({ solution, query, calendarLookup }) {
         )}
         {expectedDate && (
           <div className="search-result-meta-item">
-            <span className="search-result-meta-label">Expected</span>
-            <span>{expectedDate}</span>
+            <span className="search-result-meta-label">
+              {expectedDate.overdue ? "Expected (Overdue)" : "Expected"}
+            </span>
+            <span className={expectedDate.overdue ? "text-overdue" : undefined}>
+              {expectedDate.label}
+            </span>
           </div>
         )}
         <div className="search-result-meta-item">

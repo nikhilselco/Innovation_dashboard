@@ -36,7 +36,12 @@ function KanbanCard({ solution, calendarLookup }) {
       <p className="kanban-card-meta">
         {solution[FIELDS.sector]} · {solution[VALUE_CHAIN_FIELD]}
       </p>
-      {expectedDate && <p className="kanban-card-expected">Expected: {expectedDate}</p>}
+      {expectedDate && (
+        <p className={`kanban-card-expected${expectedDate.overdue ? " overdue" : ""}`}>
+          {expectedDate.overdue ? "Overdue: " : "Expected: "}
+          {expectedDate.label}
+        </p>
+      )}
       <div className="progress">
         <div className="progress-fill" style={{ width: `${percent}%`, background: barColor }}></div>
       </div>

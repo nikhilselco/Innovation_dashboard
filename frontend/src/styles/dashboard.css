@@ -1287,6 +1287,12 @@
   gap: 4px;
 }
 
+.hero-badge-muted.overdue {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  border-color: transparent;
+}
+
 .hero-badge-muted i {
   font-size: 11px;
 }
@@ -1746,6 +1752,16 @@ select:focus-visible,
   color: var(--color-text-tertiary);
   margin: 0 0 7px;
   font-size: 10px;
+}
+
+.kanban-card-expected.overdue {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.text-overdue {
+  color: var(--color-danger);
+  font-weight: 600;
 }
 
 .progress {

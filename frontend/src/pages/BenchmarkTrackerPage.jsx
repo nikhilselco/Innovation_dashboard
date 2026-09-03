@@ -8,7 +8,14 @@ import Loading from "../components/common/Loading";
 import ErrorMessage from "../components/common/ErrorMessage";
 import { useLongList } from "../hooks/useLongList";
 import { useCalendarLookup } from "../hooks/useCalendarLookup";
-import { FIELDS, DOC_FIELDS, getSector, getDocStatus, isPriority } from "../utils/helpers";
+import {
+  FIELDS,
+  DOC_FIELDS,
+  getSector,
+  getDocStatus,
+  isPriority,
+  getExpectedDate,
+} from "../utils/helpers";
 import { downloadCsv } from "../utils/csv";
 
 function BenchmarkTrackerPage() {
@@ -66,6 +73,18 @@ function BenchmarkTrackerPage() {
     else if (status === "in-progress") inProgress.push(row);
     else notStarted.push(row);
   });
+
+  // Soonest due date first; solutions with no confirmed expected date sort last.
+  function byExpectedDate(a, b) {
+    const da = getExpectedDate(a, calendarLookup)?.date?.getTime() ?? null;
+    const db = getExpectedDate(b, calendarLookup)?.date?.getTime() ?? null;
+    if (da === null && db === null) return 0;
+    if (da === null) return 1;
+    if (db === null) return -1;
+    return da - db;
+  }
+  notStarted.sort(byExpectedDate);
+  inProgress.sort(byExpectedDate);
 
   const hasActiveFilters = search || sectorFilter || valueChainFilter || yearFilter || !priorityOnly;
 

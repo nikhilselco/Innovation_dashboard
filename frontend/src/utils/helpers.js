@@ -153,7 +153,8 @@ const CALENDAR_NAME_ALIASES = {
 // The sheet mixes real Excel dates (parsed upstream to "YYYY-MM-DD") with
 // plain typed text ("DD-MM-YYYY"), and a few cells are blank/broken and
 // come through as an epoch date - normalize all of that into one clean,
-// human-readable format, or null if there's nothing usable.
+// human-readable label, keeping the parsed Date too (for overdue checks and
+// sorting) - or null if there's nothing usable.
 function parseCalendarDate(raw) {
   if (typeof raw !== "string") return null;
   const trimmed = raw.trim();
@@ -166,37 +167,46 @@ function parseCalendarDate(raw) {
     const [d, m, y] = trimmed.split("-");
     date = new Date(Date.UTC(Number(y), Number(m) - 1, Number(d)));
   } else {
-    return trimmed;
+    return { date: null, label: trimmed };
   }
 
-  if (Number.isNaN(date.getTime())) return trimmed;
-  return date.toLocaleDateString("en-IN", {
+  if (Number.isNaN(date.getTime())) return { date: null, label: trimmed };
+  const label = date.toLocaleDateString("en-IN", {
     day: "2-digit",
     month: "short",
     year: "numeric",
     timeZone: "UTC",
   });
+  return { date, label };
 }
 
-// Builds a normalized-solution-name -> formatted-due-date lookup from the
-// raw Calendar sheet rows, so a pending long-list solution can be matched
-// to its expected completion date.
+// Builds a normalized-solution-name -> { date, label } lookup from the raw
+// Calendar sheet rows, so a pending long-list solution can be matched to its
+// expected completion date.
 export function buildExpectedDateLookup(calendarRows) {
   const lookup = new Map();
   (calendarRows || []).forEach((row) => {
     const calName = normalizeSolutionName(row[CALENDAR_NAME_FIELD]);
     if (!calName) return;
-    const formatted = parseCalendarDate(row[CALENDAR_DATE_FIELD]);
-    if (!formatted) return;
+    const parsed = parseCalendarDate(row[CALENDAR_DATE_FIELD]);
+    if (!parsed) return;
 
-    lookup.set(calName, formatted);
+    lookup.set(calName, parsed);
     const alias = CALENDAR_NAME_ALIASES[calName];
-    if (alias) lookup.set(alias, formatted);
+    if (alias) lookup.set(alias, parsed);
   });
   return lookup;
 }
 
+// Returns { label, overdue, date } for a pending solution's expected
+// completion date, or null if there's no confirmed calendar match.
 export function getExpectedDate(row, lookup) {
   if (!lookup) return null;
-  return lookup.get(normalizeSolutionName(row[FIELDS.name])) || null;
+  const entry = lookup.get(normalizeSolutionName(row[FIELDS.name]));
+  if (!entry) return null;
+  return {
+    label: entry.label,
+    date: entry.date,
+    overdue: entry.date ? entry.date.getTime() < Date.now() : false,
+  };
 }

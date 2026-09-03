@@ -47,9 +47,9 @@ function DetailHeader({ solution, calendarLookup }) {
             </span>
           )}
           {expectedDate && (
-            <span className="hero-badge-muted">
-              <i className="ti ti-calendar-event" aria-hidden="true"></i> Expected completion:{" "}
-              {expectedDate}
+            <span className={`hero-badge-muted${expectedDate.overdue ? " overdue" : ""}`}>
+              <i className="ti ti-calendar-event" aria-hidden="true"></i>{" "}
+              {expectedDate.overdue ? "Overdue since" : "Expected completion:"} {expectedDate.label}
             </span>
           )}
         </div>
