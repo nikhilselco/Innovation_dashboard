@@ -4,13 +4,15 @@ import {
   isPriority,
   getImplementationsCount,
   hasContent,
+  getExpectedDate,
 } from "../../utils/helpers";
 
-function DetailHeader({ solution }) {
+function DetailHeader({ solution, calendarLookup }) {
   const benchmarked = isBenchmarked(solution);
   const priority = isPriority(solution);
   const impl = getImplementationsCount(solution);
   const innovationType = solution[FIELDS.innovationType];
+  const expectedDate = !benchmarked ? getExpectedDate(solution, calendarLookup) : null;
   const metaParts = [
     solution[FIELDS.segment],
     solution[FIELDS.activity],
@@ -42,6 +44,12 @@ function DetailHeader({ solution }) {
             <span className="hero-badge-muted">
               <i className="ti ti-calendar" aria-hidden="true"></i> Updated{" "}
               {solution[FIELDS.updateYear]}
+            </span>
+          )}
+          {expectedDate && (
+            <span className="hero-badge-muted">
+              <i className="ti ti-calendar-event" aria-hidden="true"></i> Expected completion:{" "}
+              {expectedDate}
             </span>
           )}
         </div>

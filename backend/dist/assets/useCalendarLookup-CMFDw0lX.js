@@ -1,1 +1,0 @@
-import{I as e,X as t,at as n,it as r}from"./index-BPuIMhN-.js";var i=n(r(),1);function a(){let[n,r]=(0,i.useState)(null);return(0,i.useEffect)(()=>{let n=!1;return t().then(t=>{n||r(e(t))}).catch(()=>{n||r(new Map)}),()=>{n=!0}},[]),n}export{a as t};

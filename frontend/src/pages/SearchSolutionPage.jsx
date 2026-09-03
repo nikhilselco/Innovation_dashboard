@@ -6,7 +6,7 @@ import DetailHeader from "../components/detail/DetailHeader";
 import DetailTabs from "../components/detail/DetailTabs";
 import Loading from "../components/common/Loading";
 import ErrorMessage from "../components/common/ErrorMessage";
-import { FIELDS, isBenchmarked, getExpectedDate } from "../utils/helpers";
+import { FIELDS } from "../utils/helpers";
 
 function SearchSolutionPage() {
   const { solutions, loading, error, retry } = useLongList();
@@ -23,9 +23,6 @@ function SearchSolutionPage() {
   if (loading) return <Loading />;
   if (error) return <ErrorMessage message={error} onRetry={retry} />;
 
-  const expectedDate =
-    solution && !isBenchmarked(solution) ? getExpectedDate(solution, calendarLookup) : null;
-
   return (
     <main className="dashboard-content" id="main-content" tabIndex={-1}>
       <div className="page-title-row">
@@ -35,18 +32,12 @@ function SearchSolutionPage() {
           </Link>
           <h2>{solution ? solution[FIELDS.name] : "Search"}</h2>
           <p>Full details for this solution, without leaving Search.</p>
-          {expectedDate && (
-            <p className="hero-badge-muted" style={{ display: "inline-flex", marginTop: 8 }}>
-              <i className="ti ti-calendar-event" aria-hidden="true"></i>&nbsp;Expected completion:{" "}
-              <strong>&nbsp;{expectedDate}</strong>
-            </p>
-          )}
         </div>
       </div>
 
       {solution ? (
         <div className="detail-panel">
-          <DetailHeader solution={solution} />
+          <DetailHeader solution={solution} calendarLookup={calendarLookup} />
           <DetailTabs key={solution.__uid} solution={solution} allSolutions={solutions} />
         </div>
       ) : (

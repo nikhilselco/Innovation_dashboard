@@ -1742,6 +1742,12 @@ select:focus-visible,
   font-size: 11px;
 }
 
+.kanban-card-expected {
+  color: var(--color-text-tertiary);
+  margin: 0 0 7px;
+  font-size: 10px;
+}
+
 .progress {
   height: 4px;
   background: var(--color-background-secondary);

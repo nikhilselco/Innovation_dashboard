@@ -7,11 +7,13 @@ import SectorStatusChart from "../components/tracker/SectorStatusChart";
 import Loading from "../components/common/Loading";
 import ErrorMessage from "../components/common/ErrorMessage";
 import { useLongList } from "../hooks/useLongList";
+import { useCalendarLookup } from "../hooks/useCalendarLookup";
 import { FIELDS, DOC_FIELDS, getSector, getDocStatus, isPriority } from "../utils/helpers";
 import { downloadCsv } from "../utils/csv";
 
 function BenchmarkTrackerPage() {
   const { solutions, loading, error, retry } = useLongList();
+  const calendarLookup = useCalendarLookup();
   const [search, setSearch] = useState("");
   const [sectorFilter, setSectorFilter] = useState("");
   const [valueChainFilter, setValueChainFilter] = useState("");
@@ -198,8 +200,8 @@ function BenchmarkTrackerPage() {
       <div className="card" style={{ marginBottom: 12 }}>
         <p className="card-title">Benchmarking Pipeline</p>
         <div className="kanban-board">
-          <KanbanColumn title="Not Started" tone="danger" items={notStarted} />
-          <KanbanColumn title="In Progress" tone="warning" items={inProgress} />
+          <KanbanColumn title="Not Started" tone="danger" items={notStarted} calendarLookup={calendarLookup} />
+          <KanbanColumn title="In Progress" tone="warning" items={inProgress} calendarLookup={calendarLookup} />
           <KanbanColumn title="Done" tone="success" items={done} />
         </div>
       </div>

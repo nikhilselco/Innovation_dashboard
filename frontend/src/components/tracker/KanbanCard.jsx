@@ -1,11 +1,18 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { FIELDS, VALUE_CHAIN_FIELD, getDocStatus } from "../../utils/helpers";
+import {
+  FIELDS,
+  VALUE_CHAIN_FIELD,
+  getDocStatus,
+  isBenchmarked,
+  getExpectedDate,
+} from "../../utils/helpers";
 import SolutionResourceIcons from "../common/SolutionResourceIcons";
 
-function KanbanCard({ solution }) {
+function KanbanCard({ solution, calendarLookup }) {
   const navigate = useNavigate();
   const { filled, total, percent, status } = getDocStatus(solution);
+  const expectedDate = !isBenchmarked(solution) ? getExpectedDate(solution, calendarLookup) : null;
   const goToSolution = () => navigate(`/explorer/${solution.__uid}`);
   const handleKeyDown = (e) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -29,6 +36,7 @@ function KanbanCard({ solution }) {
       <p className="kanban-card-meta">
         {solution[FIELDS.sector]} · {solution[VALUE_CHAIN_FIELD]}
       </p>
+      {expectedDate && <p className="kanban-card-expected">Expected: {expectedDate}</p>}
       <div className="progress">
         <div className="progress-fill" style={{ width: `${percent}%`, background: barColor }}></div>
       </div>

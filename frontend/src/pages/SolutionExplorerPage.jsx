@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useLongList } from "../hooks/useLongList";
+import { useCalendarLookup } from "../hooks/useCalendarLookup";
 import SolutionSidebar from "../components/explorer/SolutionSidebar";
 import DetailHeader from "../components/detail/DetailHeader";
 import DetailTabs from "../components/detail/DetailTabs";
@@ -10,6 +11,7 @@ import { FIELDS, isBenchmarked, getImplementationsCount } from "../utils/helpers
 
 function SolutionExplorerPage() {
   const { solutions, loading, error, retry } = useLongList();
+  const calendarLookup = useCalendarLookup();
   const { id } = useParams();
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
@@ -197,7 +199,7 @@ function SolutionExplorerPage() {
             <div className="explorer-main">
               {selected ? (
                 <div className="detail-panel">
-                  <DetailHeader solution={selected} />
+                  <DetailHeader solution={selected} calendarLookup={calendarLookup} />
                   <DetailTabs
                     key={selected.__uid}
                     solution={selected}

@@ -1,6 +1,6 @@
 import KanbanCard from "./KanbanCard";
 
-function KanbanColumn({ title, tone, items }) {
+function KanbanColumn({ title, tone, items, calendarLookup }) {
   return (
     <div className="kanban-col">
       <div className="kanban-header">
@@ -12,7 +12,9 @@ function KanbanColumn({ title, tone, items }) {
         {items.length === 0 ? (
           <p className="kanban-empty">Nothing here.</p>
         ) : (
-          items.map((row) => <KanbanCard key={row.__uid} solution={row} />)
+          items.map((row) => (
+            <KanbanCard key={row.__uid} solution={row} calendarLookup={calendarLookup} />
+          ))
         )}
       </div>
     </div>
